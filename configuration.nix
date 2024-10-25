@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
   imports =
@@ -13,6 +13,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.binfmt.emulatedSystems = [ "armv6l-linux" "armv7l-linux" "riscv64-linux" "aarch64-linux" ];
 
   networking.hostName = "ws"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -27,7 +28,7 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
@@ -40,7 +41,18 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome = {
+    enable = true;
+    extraGSettingsOverrides = ''
+      # change key repeat rate
+      [org.gnome.desktop.peripherals.keyboard]
+      repeat-interval=15
+      delay=200
+
+      [org.gnome.desktop.interface]
+      color-scheme="prefer-dark"
+    '';
+  };
   
 
   # Configure keymap in X11
@@ -64,12 +76,14 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.javier = {
     isNormalUser = true;
+    description = "Javier Alvarez";
     createHome = true;
     extraGroups = [ "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
       tree
     ];
+    shell = pkgs.fish;
   };
 
   # List packages installed in system profile. To search, run:
@@ -77,11 +91,18 @@
   environment.systemPackages = with pkgs; [
   #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #   wget
-    neovim
     git
+    fish
   ];
 
+  programs = {
+    firefox.enable = true;
+    fish.enable = true;
+  };
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ]; 
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
   nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
