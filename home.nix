@@ -22,6 +22,8 @@
     neofetch
     nixfmt-rfc-style
     nixd
+    ripgrep
+    fd
   ];
 
   home.stateVersion = "24.05";

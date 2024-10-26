@@ -53,7 +53,6 @@
       color-scheme="prefer-dark"
     '';
   };
-  
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -100,7 +99,7 @@
     fish.enable = true;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ]; 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   nixpkgs.config.allowUnfree = true;
@@ -149,4 +148,3 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
 }
-

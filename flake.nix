@@ -14,8 +14,8 @@
     nixosConfigurations.ws = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
-      modules = [ 
-        ./configuration.nix 
+      modules = [
+        ./configuration.nix
         home-manager.nixosModules.home-manager {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
@@ -25,7 +25,7 @@
           # arguments to home.nix
         }
 
-        ({ config, pkgs, ... }:
+        ({ pkgs, ... }:
         {
           environment.systemPackages = [ nixvim-user.packages.${pkgs.system}.default ];
         })
