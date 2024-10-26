@@ -6,18 +6,19 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim-user = {
-      url = "git+file:///home/javier/Desktop/nixvim";
+    nixvim = {
+      url = "github:javier-varez/nixvim-cfg";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs@{ self, home-manager, nixvim-user, nixpkgs, ...}: {
+  outputs = inputs@{ home-manager, nixvim, nixpkgs, ...}: {
     nixosConfigurations.ws = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
 
       modules = [
         ./host/ws
-        ./nixvim.nix
+        nixvim.nixosModules.nixvim
         home-manager.nixosModules.home-manager {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
@@ -33,7 +34,7 @@
 
       modules = [
         ./host/mininix
-        ./nixvim.nix
+        nixvim.nixosModules.nixvim
         home-manager.nixosModules.home-manager {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
