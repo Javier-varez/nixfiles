@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ../common
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ../common
+    ./hardware-configuration.nix
+  ];
 
   networking.hostName = "ws"; # Define your hostname.
 
@@ -13,7 +13,10 @@
     isNormalUser = true;
     description = "Javier Alvarez";
     createHome = true;
-    extraGroups = [ "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
       tree

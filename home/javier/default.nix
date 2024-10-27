@@ -1,4 +1,9 @@
-{ self, config, pkgs, ... }:
+{
+  self,
+  config,
+  pkgs,
+  ...
+}:
 {
   home.username = "javier";
   home.homeDirectory = "/home/javier";
@@ -66,7 +71,10 @@
       window = {
         # decorations = "None";
         opacity = 0.9;
-        padding = { x = 10; y = 10; };
+        padding = {
+          x = 10;
+          y = 10;
+        };
       };
       font = {
         normal = {

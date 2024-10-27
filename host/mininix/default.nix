@@ -1,10 +1,9 @@
 { pkgs, ... }:
 {
-  imports =
-    [
-      ../common
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ../common
+    ./hardware-configuration.nix
+  ];
 
   networking.hostName = "mininix"; # Define your hostname.
 
@@ -15,7 +14,10 @@
     isNormalUser = true;
     description = "Javier Alvarez";
     createHome = true;
-    extraGroups = [ "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
       tree

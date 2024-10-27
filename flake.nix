@@ -11,37 +11,50 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs@{ home-manager, nixvim, nixpkgs, ...}: {
-    nixosConfigurations.ws = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
+  outputs =
+    inputs@{
+      home-manager,
+      nixvim,
+      nixpkgs,
+      ...
+    }:
+    {
+      nixosConfigurations.ws = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+        };
 
-      modules = [
-        ./host/ws
-        nixvim.nixosModules.nixvim
-        home-manager.nixosModules.home-manager {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.javier = import ./home/javier;
-        }
+        modules = [
+          ./host/ws
+          nixvim.nixosModules.nixvim
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.javier = import ./home/javier;
+          }
 
-      ];
+        ];
+      };
+
+      nixosConfigurations.mininix = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./host/mininix
+          nixvim.nixosModules.nixvim
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.javier = import ./home/javier;
+          }
+
+        ];
+      };
     };
-
-    nixosConfigurations.mininix = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-
-      modules = [
-        ./host/mininix
-        nixvim.nixosModules.nixvim
-        home-manager.nixosModules.home-manager {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.javier = import ./home/javier;
-        }
-
-      ];
-    };
-  };
 }
