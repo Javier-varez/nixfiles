@@ -8,7 +8,7 @@
 
   networking.hostName = "mininix"; # Define your hostname.
 
-  hasWindowManager = false;
+  hasWindowManager = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.javier = {

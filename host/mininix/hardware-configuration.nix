@@ -14,14 +14,12 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/5d7ae593-7c36-46fe-8bb0-a98e27f48a8f";
-      fsType = "ext4";
+    { device = "/dev/disk/by-label/NIXOS_ROOT";
+      fsType = "btrfs";
     };
 
-  boot.initrd.luks.devices."luks-8653b9ce-fc63-4bca-b1a8-dc0f32cbd7b1".device = "/dev/disk/by-uuid/8653b9ce-fc63-4bca-b1a8-dc0f32cbd7b1";
-
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/CA85-6B6A";
+    { device = "/dev/disk/by-label/NIXOS_BOOT";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
