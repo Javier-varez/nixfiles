@@ -66,7 +66,25 @@
     ];
 
     programs = {
-      firefox.enable = true;
+      firefox = {
+        enable = true;
+        languagePacks = [ "en-US" "es-ES" ];
+
+        policies = {
+          DisableTelemetry = true;
+          DisableFirefoxStudies = true;
+          DontCheckDefaultBrowser = true;
+
+          ExtensionSettings = {
+            "*".installation_mode = "blocked";
+            # Vimium
+            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
+            };
+          };
+        };
+      };
       fish.enable = true;
     };
 
