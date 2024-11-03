@@ -6,7 +6,7 @@
 }:
 {
   home.username = "javier";
-  home.homeDirectory = "/home/javier";
+  home.homeDirectory = if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier";
 
   home.sessionVariables = {
     EDITOR = "nvim";

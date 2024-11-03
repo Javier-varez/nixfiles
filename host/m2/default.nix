@@ -14,7 +14,13 @@
   nix.settings.experimental-features = "nix-command flakes";
 
   # Enable alternative shell support in nix-darwin.
-  # programs.fish.enable = true;
+  programs.fish.enable = true;
+
+  users.users.javier = {
+    description = "Javier Alvarez";
+    home = "/Users/javier";
+    shell = pkgs.fish;
+  };
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;

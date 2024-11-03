@@ -71,6 +71,13 @@
         modules = [
           ./host/m2
           nixvim.nixosModules.nixvim
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.javier = import ./home/javier;
+          }
+
         ];
       };
     };
