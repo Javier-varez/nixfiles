@@ -1,6 +1,4 @@
 {
-  self,
-  config,
   pkgs,
   ...
 }:
@@ -29,6 +27,7 @@
     nixd
     ripgrep
     fd
+    nushell
   ];
 
   home.stateVersion = "24.05";
@@ -47,6 +46,17 @@
         neofetch
       end
     '';
+  };
+
+  programs.nushell = {
+    enable = true;
+    shellAliases = {
+      l = "ls";
+      ll = "ls -l";
+      vi = "nvim";
+      vim = "nvim";
+      gits = "git status";
+    };
   };
 
   programs.home-manager.enable = true;
