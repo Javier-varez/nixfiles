@@ -108,13 +108,6 @@
     };
   };
 
-  programs.wezterm = {
-    enable = true;
-    extraConfig = ''
-      return {}
-    '';
-  };
-
   programs.tmux = {
     enable = true;
     terminal = "xterm-256color";
