@@ -4,6 +4,7 @@
   environment.systemPackages =
     [
       pkgs.vim
+      pkgs.iterm2
     ];
 
   # Auto upgrade nix package and the daemon service.

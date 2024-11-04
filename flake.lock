@@ -302,11 +302,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1730544319,
-        "narHash": "sha256-DfmRIuRm9BX5pL1fLpSWbRwY17ip/JRc0Ww0PltGnJE=",
+        "lastModified": 1730661295,
+        "narHash": "sha256-SwB0rPKRf4PhcUvmI1pvAQ2tb/9BZb6lP7RXNYVLU2I=",
         "owner": "javier-varez",
         "repo": "nixvim-cfg",
-        "rev": "5c154c3a380ddbe9ddc367e61981cc209b38aec3",
+        "rev": "6e9f99de7e1cf46a06b0f1344d8dd9d0afee4b3f",
         "type": "github"
       },
       "original": {
