@@ -5,6 +5,7 @@
     [
       pkgs.vim
       pkgs.iterm2
+      inputs.self.packages.${pkgs.system}.ltapiserv-rs
     ];
 
   # Auto upgrade nix package and the daemon service.
@@ -21,6 +22,14 @@
     description = "Javier Alvarez";
     home = "/Users/javier";
     shell = pkgs.fish;
+  };
+
+  launchd.agents.ltapiserv-rs = {
+    command = "${inputs.self.packages.${pkgs.system}.ltapiserv-rs}/bin/ltapiserv-rs";
+    serviceConfig = {
+      RunAtLoad = true;
+      KeepAlive = true;
+    };
   };
 
   # Set Git commit hash for darwin-version.
