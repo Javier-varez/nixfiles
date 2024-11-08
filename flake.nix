@@ -87,5 +87,24 @@
 
         ];
       };
-    };
+
+      darwinConfigurations.m1pro = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./host/m1pro
+          nixvim.nixosModules.nixvim
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.javier = import ./home/javier;
+          }
+
+        ];
+      };
+   };
 }
