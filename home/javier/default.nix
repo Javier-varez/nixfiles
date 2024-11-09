@@ -2,6 +2,16 @@
   pkgs,
   ...
 }:
+let
+  shellAliases = {
+    l = "ls";
+    ll = "ls -l";
+    vi = "nvim";
+    vim = "nvim";
+    gits = "git status";
+    k = "kubectl";
+  };
+in
 {
   home.username = "javier";
   home.homeDirectory = if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier";
@@ -10,37 +20,43 @@
     EDITOR = "nvim";
   };
 
-  home.packages = with pkgs; [
-    git
-    htop
-    home-manager
-    starship
-    fish
-    gitui
-    nerdfonts
-    alacritty
-    xclip
-    rustup
-    tmux
-    neofetch
-    nixfmt-rfc-style
-    nixd
-    ripgrep
-    fd
-    nushell
-  ];
+  home.packages =
+    with pkgs;
+    [
+      git
+      htop
+      home-manager
+      starship
+      fish
+      gitui
+      nerdfonts
+      alacritty
+      xclip
+      rustup
+      tmux
+      neofetch
+      nixfmt-rfc-style
+      nixd
+      ripgrep
+      fd
+      nushell
+      python3
+      kubectl
+      k9s
+      git-crypt
+    ]
+    ++ (with python3Packages; [
+      matplotlib
+      numpy
+      pandas
+      black
+    ]);
 
   home.stateVersion = "24.05";
 
   programs.fish = {
     enable = true;
-    shellAliases = {
-      l = "ls";
-      ll = "ls -l";
-      vi = "nvim";
-      vim = "nvim";
-      gits = "git status";
-    };
+    inherit shellAliases;
     interactiveShellInit = ''
       function fish_greeting
         neofetch
@@ -50,13 +66,7 @@
 
   programs.nushell = {
     enable = true;
-    shellAliases = {
-      l = "ls";
-      ll = "ls -l";
-      vi = "nvim";
-      vim = "nvim";
-      gits = "git status";
-    };
+    inherit shellAliases;
   };
 
   programs.home-manager.enable = true;
