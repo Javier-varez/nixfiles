@@ -63,6 +63,7 @@
     environment.systemPackages = with pkgs; [
       git
       fish
+      gnomeExtensions.pop-shell
     ];
 
     programs = {
