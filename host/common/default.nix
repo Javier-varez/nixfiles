@@ -68,7 +68,10 @@
     programs = {
       firefox = {
         enable = true;
-        languagePacks = [ "en-US" "es-ES" ];
+        languagePacks = [
+          "en-US"
+          "es-ES"
+        ];
 
         policies = {
           DisableTelemetry = true;

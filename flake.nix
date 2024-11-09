@@ -24,12 +24,18 @@
       ...
     }:
     let
-      systems = ["aarch64-darwin" "x86_64-linux" "aarch64-linux"];
+      systems = [
+        "aarch64-darwin"
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
       forEachSystem = nixpkgs.lib.genAttrs systems;
     in
     {
       # Additional packages provided by this flake
-      packages = forEachSystem (system: import ./pkgs { pkgs = inputs.nixpkgs.legacyPackages."${system}"; });
+      packages = forEachSystem (
+        system: import ./pkgs { pkgs = inputs.nixpkgs.legacyPackages."${system}"; }
+      );
 
       nixosConfigurations.ws = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -106,5 +112,5 @@
 
         ];
       };
-   };
+    };
 }

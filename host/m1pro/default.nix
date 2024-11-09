@@ -1,12 +1,12 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, ... }:
+{
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    [
-      pkgs.vim
-      pkgs.iterm2
-      inputs.self.packages.${pkgs.system}.ltapiserv-rs
-    ];
+  environment.systemPackages = [
+    pkgs.vim
+    pkgs.iterm2
+    inputs.self.packages.${pkgs.system}.ltapiserv-rs
+  ];
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;

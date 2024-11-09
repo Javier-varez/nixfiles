@@ -25,11 +25,9 @@ rustPlatform.buildRustPackage rec {
   pname = "ltapiserv-rs";
   version = "v0.2.3";
 
-  nativeBuildInputs =
-    with pkgs;
-    [
-      gzip
-    ];
+  nativeBuildInputs = with pkgs; [
+    gzip
+  ];
 
   buildInputs =
     with pkgs;
@@ -39,7 +37,6 @@ rustPlatform.buildRustPackage rec {
       darwin.apple_sdk.frameworks.SystemConfiguration
       darwin.apple_sdk.frameworks.CoreServices
     ];
-
 
   src = fetchFromGitHub {
     owner = "cpg314";
