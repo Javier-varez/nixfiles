@@ -44,6 +44,17 @@ in
       kubectl
       k9s
       git-crypt
+      git-repo
+      gnumake
+      gcc14
+      llvm_19
+      lld_19
+      flex
+      bison
+      telegram-desktop
+      fractal
+      bitwarden-cli
+      bitwarden-desktop
     ]
     ++ (with python3Packages; [
       matplotlib
