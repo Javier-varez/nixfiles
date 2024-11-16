@@ -14,6 +14,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    iamb = {
+      url = "github:ulyssa/iamb/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{
@@ -51,8 +55,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.javier = import ./home/javier;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
           }
-
         ];
       };
 
@@ -70,8 +76,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.javier = import ./home/javier;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
           }
-
         ];
       };
 
@@ -89,8 +97,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.javier = import ./home/javier;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
           }
-
         ];
       };
 
@@ -108,8 +118,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.javier = import ./home/javier;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
           }
-
         ];
       };
     };

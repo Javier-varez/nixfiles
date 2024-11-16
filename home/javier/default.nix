@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -55,6 +56,7 @@ in
       fractal
       bitwarden-cli
       bitwarden-desktop
+      inputs.iamb.packages."${pkgs.system}".default
     ]
     ++ (with python3Packages; [
       matplotlib
@@ -62,6 +64,19 @@ in
       pandas
       black
     ]);
+
+  home.file = {
+    ".config/iamb/config.toml" = {
+      enable = true;
+      text = ''
+        default_profile = "user"
+
+        [profiles.user]
+        user_id = "@javier:allthingsembedded.online"
+        url = "https://allthingsembedded.online"
+      '';
+    };
+  };
 
   home.stateVersion = "24.05";
 
