@@ -83,6 +83,9 @@ in
         [profiles.user]
         user_id = "@javier:allthingsembedded.online"
         url = "https://allthingsembedded.online"
+
+        [settings]
+        image_preview = {}
       '';
     };
   };
