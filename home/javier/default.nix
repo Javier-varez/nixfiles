@@ -13,7 +13,11 @@ let
     k = "kubectl";
   };
 
-  iambConfigPath = if pkgs.stdenv.isLinux then ".config/iamb/config.toml" else "Library/Application Support/iamb/config.toml";
+  iambConfigPath =
+    if pkgs.stdenv.isLinux then
+      ".config/iamb/config.toml"
+    else
+      "Library/Application Support/iamb/config.toml";
 in
 {
   home.username = "javier";
