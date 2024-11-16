@@ -12,6 +12,8 @@ let
     gits = "git status";
     k = "kubectl";
   };
+
+  iambConfigPath = if pkgs.stdenv.isLinux then ".config/iamb/config.toml" else "Library/Application Support/iamb/config.toml";
 in
 {
   home.username = "javier";
@@ -52,11 +54,14 @@ in
       lld_19
       flex
       bison
+      inputs.iamb.packages."${pkgs.system}".default
+    ]
+    ++ lib.optional stdenv.isLinux [
+      # Packages only available in linux
       telegram-desktop
       fractal
       bitwarden-cli
       bitwarden-desktop
-      inputs.iamb.packages."${pkgs.system}".default
     ]
     ++ (with python3Packages; [
       matplotlib
@@ -66,7 +71,7 @@ in
     ]);
 
   home.file = {
-    ".config/iamb/config.toml" = {
+    "${iambConfigPath}" = {
       enable = true;
       text = ''
         default_profile = "user"
