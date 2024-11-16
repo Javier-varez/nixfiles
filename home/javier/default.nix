@@ -60,7 +60,7 @@ in
       bison
       inputs.iamb.packages."${pkgs.system}".default
     ]
-    ++ lib.optional stdenv.isLinux [
+    ++ lib.optionals stdenv.isLinux [
       # Packages only available in linux
       telegram-desktop
       fractal
