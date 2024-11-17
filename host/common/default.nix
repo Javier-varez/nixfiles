@@ -61,6 +61,8 @@
     # List packages installed in system profile. To search, run:
     # $ nix search wget
     environment.systemPackages = with pkgs; [
+      man-pages
+      man-pages-posix
       git
       fish
       gnomeExtensions.pop-shell
@@ -86,6 +88,11 @@
               installation_mode = "force_installed";
               install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
             };
+            # Dark reader
+            "addon@darkreader.org" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
+            };
           };
         };
       };
@@ -100,6 +107,8 @@
     nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
     nixpkgs.config.allowUnfree = true;
+
+    documentation.dev.enable = true;
 
     # This option defines the first version of NixOS you have installed on this particular machine,
     # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
