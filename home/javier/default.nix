@@ -66,6 +66,8 @@ in
       fractal
       bitwarden-cli
       bitwarden-desktop
+      protonvpn-cli
+      protonvpn-gui
     ]
     ++ (with python3Packages; [
       matplotlib
