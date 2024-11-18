@@ -59,6 +59,7 @@ in
       flex
       bison
       inputs.iamb.packages."${pkgs.system}".default
+      glasgow
     ]
     ++ lib.optionals stdenv.isLinux [
       # Packages only available in linux

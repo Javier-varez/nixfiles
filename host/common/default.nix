@@ -99,6 +99,9 @@
       fish.enable = true;
     };
 
+    # Enables udev rules for glasgow interface explorer
+    hardware.glasgow.enable = true;
+
     nix.settings.experimental-features = [
       "nix-command"
       "flakes"
