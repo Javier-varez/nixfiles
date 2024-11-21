@@ -66,6 +66,8 @@
       git
       fish
       gnomeExtensions.pop-shell
+      usbutils
+      inputs.self.packages.${pkgs.system}.sunxi-tools
     ];
 
     programs = {
@@ -101,6 +103,17 @@
 
     # Enables udev rules for glasgow interface explorer
     hardware.glasgow.enable = true;
+
+    services.udev.packages = [
+      (pkgs.writeTextFile {
+        name = "70-allwinner-fex.rules";
+        text = ''
+          # FEL access to allwinner devices
+          SUBSYSTEM=="usb", ATTRS{idVendor}=="1f3a", ATTRS{idProduct}=="efe8", MODE="660", TAG+="uaccess"
+        '';
+        destination = "/etc/udev/rules.d/70-allwinner-fex.rules";
+      })
+    ];
 
     nix.settings.experimental-features = [
       "nix-command"
