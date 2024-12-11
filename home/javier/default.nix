@@ -60,6 +60,7 @@ in
       bison
       inputs.iamb.packages."${pkgs.system}".default
       glasgow
+      zig
     ]
     ++ lib.optionals stdenv.isLinux [
       # Packages only available in linux
