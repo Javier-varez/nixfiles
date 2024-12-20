@@ -124,5 +124,27 @@
           }
         ];
       };
+
+      nixosConfigurations.m1pro-asahi = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./host/m1pro-asahi
+          nixvim.nixosModules.nixvim
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.javier = import ./home/javier;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+          }
+        ];
+      };
+
     };
 }
