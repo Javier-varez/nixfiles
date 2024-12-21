@@ -2,13 +2,17 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ inputs, lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   hardware.asahi.enable = true;
   hardware.asahi.useExperimentalGPUDriver = true;
@@ -67,6 +71,7 @@
     gnomeExtensions.pop-shell
     usbutils
     inputs.self.packages.${pkgs.system}.sunxi-tools
+    inputs.self.packages.${pkgs.system}.widevine
   ];
 
   programs = {
