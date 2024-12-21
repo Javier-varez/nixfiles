@@ -13,6 +13,7 @@
 
   hardware.asahi.enable = true;
   hardware.asahi.useExperimentalGPUDriver = true;
+  hardware.asahi.peripheralFirmwareDirectory = ../../firmware/m1pro-asahi;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
