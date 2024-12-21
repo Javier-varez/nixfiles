@@ -8,7 +8,6 @@
   imports =
     [
       ./hardware-configuration.nix
-      ../apple-silicon-support
     ];
 
   hardware.asahi.enable = true;

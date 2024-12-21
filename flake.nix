@@ -14,6 +14,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-apple-silicon = {
+      url = "github:tpwrules/nixos-apple-silicon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     iamb = {
       url = "github:ulyssa/iamb/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +29,7 @@
       nixvim,
       nixpkgs,
       nix-darwin,
+      nixos-apple-silicon,
       ...
     }:
     let
@@ -135,6 +140,7 @@
           ./host/m1pro-asahi
           nixvim.nixosModules.nixvim
           home-manager.nixosModules.home-manager
+          nixos-apple-silicon.nixosModules.apple-silicon-support
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
