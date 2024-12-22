@@ -103,6 +103,13 @@
       };
     };
     fish.enable = true;
+
+    # Add support for showing unknown commands in the shell
+    command-not-found.enable = false;
+    nix-index = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
 
   # Enables udev rules for glasgow interface explorer
