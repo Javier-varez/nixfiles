@@ -4,7 +4,6 @@
 
 {
   inputs,
-  lib,
   pkgs,
   ...
 }:
@@ -72,6 +71,7 @@
     usbutils
     inputs.self.packages.${pkgs.system}.sunxi-tools
     inputs.self.packages.${pkgs.system}.widevine
+    (chromium.override { widevine-cdm = inputs.self.packages.${pkgs.system}.widevine; enableWideVine = true; })
   ];
 
   programs = {
