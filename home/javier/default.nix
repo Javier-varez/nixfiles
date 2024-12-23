@@ -50,7 +50,7 @@ in
       xclip
       rustup
       tmux
-      neofetch
+      fastfetch
       onefetch
       nixfmt-rfc-style
       nixd
@@ -117,7 +117,7 @@ in
     inherit shellAliases;
     interactiveShellInit = ''
       function fish_greeting
-        neofetch
+        fastfetch
       end
     '';
   };
