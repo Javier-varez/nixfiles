@@ -1,0 +1,25 @@
+From 42424e6896a091bb96be689571be0db56f3da8c4 Mon Sep 17 00:00:00 2001
+From: Javier Alvarez <javier.alvarez@allthingsembedded.net>
+Date: Mon, 23 Dec 2024 02:17:07 +0100
+Subject: [PATCH] asahi linux support
+
+---
+ lib/std/mem.zig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/std/mem.zig b/lib/std/mem.zig
+index aff9532ecb..1aead51612 100644
+--- a/lib/std/mem.zig
++++ b/lib/std/mem.zig
+@@ -14,7 +14,7 @@ pub const page_size = switch (builtin.cpu.arch) {
+     .wasm32, .wasm64 => 64 * 1024,
+     .aarch64 => switch (builtin.os.tag) {
+         .macos, .ios, .watchos, .tvos, .visionos => 16 * 1024,
+-        else => 4 * 1024,
++        else => 16 * 1024,
+     },
+     .sparc64 => 8 * 1024,
+     else => 4 * 1024,
+-- 
+2.47.0
+
