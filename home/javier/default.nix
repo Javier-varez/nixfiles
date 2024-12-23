@@ -13,6 +13,7 @@ let
     vi = "nvim";
     vim = "nvim";
     gits = "git status";
+    cat = "bat";
     k = "kubectl";
   };
 
@@ -125,6 +126,10 @@ in
   programs.nushell = {
     enable = true;
     inherit shellAliases;
+  };
+
+  programs.bat = {
+    enable = true;
   };
 
   programs.home-manager.enable = true;
