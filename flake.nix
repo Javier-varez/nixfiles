@@ -147,6 +147,7 @@
             home-manager.users.javier = import ./home/javier;
             home-manager.extraSpecialArgs = {
               inherit inputs;
+              enableAsahiWidevine = true;
             };
           }
         ];

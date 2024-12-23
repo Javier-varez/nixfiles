@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  enableAsahiWidevine ? false,
   ...
 }:
 let
@@ -19,7 +20,11 @@ let
     else
       "Library/Application Support/iamb/config.toml";
 
-  fixed-zig = if pkgs.system == "aarch64-linux" then inputs.self.packages."${pkgs.system}".zig-asahi else pkgs.zig ;
+  fixed-zig =
+    if pkgs.system == "aarch64-linux" then
+      inputs.self.packages."${pkgs.system}".zig-asahi
+    else
+      pkgs.zig;
 in
 {
   home.username = "javier";
@@ -93,6 +98,12 @@ in
 
         [settings]
         image_preview = {}
+      '';
+    };
+    ".mozilla/firefox/1eicskpd.default/gmp-widevinecdm" = {
+      enable = enableAsahiWidevine;
+      source = pkgs.runCommandLocal "firefox-widevinecdm" { } ''
+        ln -s ${inputs.self.packages.${pkgs.system}.widevine}/gmp-widevinecdm $out
       '';
     };
   };

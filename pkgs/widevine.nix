@@ -3,7 +3,8 @@
 }:
 let
   inherit (pkgs) lib stdenv;
-  widevinePath = "share/google/chrome/WidevineCdm";
+  chromeWidevinePath = "share/google/chrome/WidevineCdm";
+  firefoxWidevinePath = "gmp-widevinecdm/system-installed";
 in
 stdenv.mkDerivation (finalAttrs: {
   name = "widevine-cdm";
@@ -29,18 +30,25 @@ stdenv.mkDerivation (finalAttrs: {
 
   unpackPhase = ''
     unsquashfs -q $src 'WidevineCdm/*'
-    mkdir -p $out/${widevinePath}
-    python3 $widevineInstaller/widevine_fixup.py squashfs-root/WidevineCdm/_platform_specific/cros_arm64/libwidevinecdm.so $out/${widevinePath}/libwidevinecdm.so
-    cp squashfs-root/WidevineCdm/manifest.json $out/${widevinePath}/
-    cp squashfs-root/WidevineCdm/LICENSE $out/${widevinePath}/LICENSE.txt
-    mkdir -p $out/${widevinePath}/_platform_specific/linux_arm64
-    cp $out/${widevinePath}/libwidevinecdm.so $out/${widevinePath}/_platform_specific/linux_arm64/
+    mkdir -p $out/${chromeWidevinePath}
+    python3 $widevineInstaller/widevine_fixup.py squashfs-root/WidevineCdm/_platform_specific/cros_arm64/libwidevinecdm.so $out/${chromeWidevinePath}/libwidevinecdm.so
+
+    cp squashfs-root/WidevineCdm/manifest.json $out/${chromeWidevinePath}/
+    cp squashfs-root/WidevineCdm/LICENSE $out/${chromeWidevinePath}/LICENSE.txt
+
+    mkdir -p $out/${chromeWidevinePath}/_platform_specific/linux_arm64
+    cp $out/${chromeWidevinePath}/libwidevinecdm.so $out/${chromeWidevinePath}/_platform_specific/linux_arm64/
+    mkdir -p $out/${chromeWidevinePath}/_platform_specific/linux_arm64
+
+    mkdir -p $out/${firefoxWidevinePath}/
+    cp squashfs-root/WidevineCdm/manifest.json $out/${firefoxWidevinePath}/
+    cp $out/${chromeWidevinePath}/libwidevinecdm.so $out/${firefoxWidevinePath}/
   '';
 
   # Accoring to widevine-installer: "Hack because Chromium hardcodes a check for this right now..."
   postInstall = ''
-    mkdir -p "$out/${widevinePath}/_platform_specific/linux_x64"
-    touch "$out/${widevinePath}/_platform_specific/linux_x64/libwidevinecdm.so"
+    mkdir -p "$out/${chromeWidevinePath}/_platform_specific/linux_x64"
+    touch "$out/${chromeWidevinePath}/_platform_specific/linux_x64/libwidevinecdm.so"
   '';
 
   meta = {

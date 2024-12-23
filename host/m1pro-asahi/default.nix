@@ -27,7 +27,7 @@
     settings.General.EnableNetworkConfiguration = true;
   };
 
-  time.timeZone = lib.mkDefault "Europe/Zurich";
+  time.timeZone = "Europe/Zurich";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -54,7 +54,6 @@
       "wheel"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      firefox
       tree
     ];
     shell = pkgs.fish;
@@ -71,7 +70,10 @@
     usbutils
     inputs.self.packages.${pkgs.system}.sunxi-tools
     inputs.self.packages.${pkgs.system}.widevine
-    (chromium.override { widevine-cdm = inputs.self.packages.${pkgs.system}.widevine; enableWideVine = true; })
+    (chromium.override {
+      widevine-cdm = inputs.self.packages.${pkgs.system}.widevine;
+      enableWideVine = true;
+    })
   ];
 
   programs = {
@@ -81,6 +83,15 @@
         "en-US"
         "es-ES"
       ];
+
+      autoConfig = ''
+        pref("media.gmp-widevinecdm.version", "system-installed");
+        pref("media.gmp-widevinecdm.visible", true);
+        pref("media.gmp-widevinecdm.enabled", true);
+        pref("media.gmp-widevinecdm.autoupdate", false);
+        pref("media.eme.enabled", true);
+        pref("media.eme.encrypted-media-encryption-scheme.enabled", true);
+      '';
 
       policies = {
         DisableTelemetry = true;
@@ -99,9 +110,15 @@
             installation_mode = "force_installed";
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
           };
+          # User-Agent Switcher and Manager
+          "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
+          };
         };
       };
     };
+
     fish.enable = true;
 
     # Add support for showing unknown commands in the shell
