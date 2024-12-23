@@ -1,5 +1,7 @@
 {
+  config,
   pkgs,
+  lib,
   inputs,
   enableAsahiWidevine ? false,
   ...
@@ -100,7 +102,7 @@ in
         image_preview = {}
       '';
     };
-    ".mozilla/firefox/1eicskpd.default/gmp-widevinecdm" = {
+    ".mozilla/firefox/${config.programs.firefox.profiles.javier.path}/gmp-widevinecdm" = {
       enable = enableAsahiWidevine;
       source = pkgs.runCommandLocal "firefox-widevinecdm" { } ''
         ln -s ${inputs.self.packages.${pkgs.system}.widevine}/gmp-widevinecdm $out
@@ -174,13 +176,26 @@ in
     };
   };
 
-  programs.tmux = {
-    enable = true;
-    terminal = "xterm-256color";
-    extraConfig = ''
-      set -g mouse on
-      set-option -ga terminal-overrides ",xterm-256color:Tc"
-    '';
+  programs = {
+    tmux = {
+      enable = true;
+      terminal = "xterm-256color";
+      extraConfig = ''
+        set -g mouse on
+        set-option -ga terminal-overrides ",xterm-256color:Tc"
+      '';
+    };
+
+    firefox = {
+      enable = true;
+
+      # Firefox should be installed by the system already, we use this only to manage profiles
+      package = null;
+
+      profiles.javier = {
+        isDefault = true;
+      };
+    };
   };
 
   fonts.fontconfig = {
