@@ -77,6 +77,10 @@
     })
   ];
 
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany # gnome browser
+  ];
+
   programs = {
     firefox = {
       enable = true;
