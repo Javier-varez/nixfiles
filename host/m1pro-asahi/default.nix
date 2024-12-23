@@ -57,7 +57,7 @@
       firefox
       tree
     ];
-    shell = pkgs.fish;
+    shell = pkgs.nushell;
   };
 
   # List packages installed in system profile. To search, run:
