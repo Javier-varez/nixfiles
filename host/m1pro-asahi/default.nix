@@ -117,6 +117,10 @@
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
           };
         };
+
+        Preferences = {
+          "extensions.pocket.enabled" = { Status = "locked"; Value = false; };
+        };
       };
     };
 
