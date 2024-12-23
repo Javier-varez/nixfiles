@@ -42,6 +42,7 @@ in
       rustup
       tmux
       neofetch
+      onefetch
       nixfmt-rfc-style
       nixd
       ripgrep
