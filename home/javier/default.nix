@@ -126,6 +126,12 @@ in
   programs.nushell = {
     enable = true;
     inherit shellAliases;
+
+    extraEnv = ''
+      $env.config = {
+        edit_mode: "vi"
+      }
+    '';
   };
 
   programs.bat = {
