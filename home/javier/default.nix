@@ -22,12 +22,6 @@ let
       ".config/iamb/config.toml"
     else
       "Library/Application Support/iamb/config.toml";
-
-  fixed-zig =
-    if pkgs.system == "aarch64-linux" then
-      inputs.self.packages."${pkgs.system}".zig-asahi
-    else
-      pkgs.zig;
 in
 {
   home.username = "javier";
@@ -71,7 +65,7 @@ in
       bison
       inputs.iamb.packages."${pkgs.system}".default
       glasgow
-      fixed-zig
+      zig
     ]
     ++ lib.optionals stdenv.isLinux [
       # Packages only available in linux

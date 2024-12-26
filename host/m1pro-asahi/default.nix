@@ -13,6 +13,14 @@
     ./hardware-configuration.nix
   ];
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      zig_0_13 = prev.zig_0_13.overrideAttrs {
+        patches = prev.zig_0_13.patches ++ [ ./patches/fix-page-size.patch ];
+      };
+    })
+  ];
+
   hardware.asahi.enable = true;
   hardware.asahi.useExperimentalGPUDriver = true;
   hardware.asahi.peripheralFirmwareDirectory = ../../firmware/m1pro-asahi;
