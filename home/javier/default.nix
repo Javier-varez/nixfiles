@@ -22,6 +22,11 @@ let
       ".config/iamb/config.toml"
     else
       "Library/Application Support/iamb/config.toml";
+  ghosttyConfigPath =
+    if pkgs.stdenv.isLinux then
+      ".config/ghostty/config"
+    else
+      "Library/Application Support/com.mitchellh.ghostty/config";
 in
 {
   home.username = "javier";
@@ -88,6 +93,7 @@ in
     ]);
 
   home.file = {
+    # iamb configuration file
     "${iambConfigPath}" = {
       enable = true;
       text = ''
@@ -101,11 +107,19 @@ in
         image_preview = {}
       '';
     };
+
+    # Widevine configuration for asahi linux
     ".mozilla/firefox/${config.programs.firefox.profiles.javier.path}/gmp-widevinecdm" = {
       enable = enableAsahiWidevine;
       source = pkgs.runCommandLocal "firefox-widevinecdm" { } ''
         ln -s ${inputs.self.packages.${pkgs.system}.widevine}/gmp-widevinecdm $out
       '';
+    };
+
+    # Ghostty configuration
+    "${ghosttyConfigPath}" = {
+      enable = true;
+      source = ./ghostty.config;
     };
   };
 
