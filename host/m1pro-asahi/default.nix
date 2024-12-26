@@ -75,6 +75,7 @@
       widevine-cdm = inputs.self.packages.${pkgs.system}.widevine;
       enableWideVine = true;
     })
+    vagrant
   ];
 
   environment.gnome.excludePackages = with pkgs; [
