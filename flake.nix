@@ -37,6 +37,7 @@
         "aarch64-darwin"
         "x86_64-linux"
         "aarch64-linux"
+        "riscv64-linux"
       ];
       forEachSystem = nixpkgs.lib.genAttrs systems;
     in
@@ -150,6 +151,28 @@
               enableAsahiWidevine = true;
             };
           }
+        ];
+      };
+
+      nixosConfigurations.uconsole = nixpkgs.lib.nixosSystem {
+        system = "riscv64-linux";
+        specialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./host/uconsole
+          # nixvim.nixosModules.nixvim
+          # home-manager.nixosModules.home-manager
+          # {
+          #   home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.users.javier = import ./home/javier;
+          #   home-manager.extraSpecialArgs = {
+          #     inherit inputs;
+          #     enableAsahiWidevine = true;
+          #   };
+          # }
         ];
       };
 
