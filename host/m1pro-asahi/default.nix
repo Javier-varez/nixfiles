@@ -52,6 +52,7 @@
     createHome = true;
     extraGroups = [
       "wheel"
+      "libvirtd"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       firefox
@@ -124,7 +125,10 @@
         };
 
         Preferences = {
-          "extensions.pocket.enabled" = { Status = "locked"; Value = false; };
+          "extensions.pocket.enabled" = {
+            Status = "locked";
+            Value = false;
+          };
         };
       };
     };
@@ -136,6 +140,24 @@
     nix-index = {
       enable = true;
       enableFishIntegration = true;
+    };
+  };
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
     };
   };
 
