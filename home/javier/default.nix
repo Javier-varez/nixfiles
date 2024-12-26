@@ -63,9 +63,13 @@ in
       lld_19
       flex
       bison
-      inputs.iamb.packages."${pkgs.system}".default
       glasgow
-      zig
+      zig_0_13
+      inputs.iamb.packages."${pkgs.system}".default
+      (inputs.ghostty.packages.${pkgs.system}.default.override {
+        # We need to make sure to use our patched zig package for asahi-linux.
+        inherit zig_0_13;
+      })
     ]
     ++ lib.optionals stdenv.isLinux [
       # Packages only available in linux
