@@ -27,7 +27,7 @@
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = !config.isAsahiLinux;
 
-    networking.networkmanager.enable = !config.isAsahiLinux;
+    networking.networkmanager.enable = true;
     networking.wireless.iwd = {
       enable = config.isAsahiLinux;
       settings.General.EnableNetworkConfiguration = true;
@@ -88,6 +88,7 @@
     # List packages installed in system profile. To search, run:
     # $ nix search wget
     environment.systemPackages = with pkgs; [
+      sudo
       man-pages
       man-pages-posix
       git

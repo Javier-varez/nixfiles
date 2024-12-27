@@ -39,6 +39,7 @@ in
   home.packages =
     with pkgs;
     [
+      sudo
       git
       htop
       home-manager
