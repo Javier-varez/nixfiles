@@ -76,7 +76,6 @@
       shell = pkgs.nushell;
     };
 
-
     # Enable sound.
     # hardware.pulseaudio.enable = true;
     # OR
@@ -165,9 +164,6 @@
       };
     };
 
-    # Enables udev rules for glasgow interface explorer
-    hardware.glasgow.enable = true;
-
     services.udev.packages = [
       (pkgs.writeTextFile {
         name = "70-allwinner-fex.rules";
@@ -200,14 +196,25 @@
     nixpkgs.overlays = [
       (final: prev: {
         zig_0_13 = prev.zig_0_13.overrideAttrs {
-          patches = prev.zig_0_13.patches ++ [ ./patches/zig-fix-asahi-page-size.patch ];
+          patches =
+            prev.zig_0_13.patches
+            ++ lib.optionals config.isAsahiLinux [ ./patches/zig-fix-asahi-page-size.patch ];
         };
       })
     ];
 
-    hardware.asahi.enable = config.isAsahiLinux;
-    hardware.asahi.useExperimentalGPUDriver = config.isAsahiLinux;
-    # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
+    hardware =
+      {
+        # Enables udev rules for glasgow interface explorer
+        glasgow.enable = true;
+      }
+      // (lib.optionalAttrs config.isAsahiLinux {
+        asahi = {
+          enable = true;
+          useExperimentalGPUDriver = true;
+          # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
+        };
+      });
 
     # This option defines the first version of NixOS you have installed on this particular machine,
     # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

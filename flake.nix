@@ -56,7 +56,8 @@
         m1pro = "aarch64-darwin";
       };
 
-      generateNixosSystem = name: system:
+      generateNixosSystem =
+        name: system:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
@@ -69,7 +70,8 @@
           ];
         };
 
-      generateDarwinSystem = name: system:
+      generateDarwinSystem =
+        name: system:
         nix-darwin.lib.darwinSystem {
           inherit system;
           specialArgs = {
