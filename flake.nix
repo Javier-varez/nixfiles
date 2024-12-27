@@ -29,11 +29,8 @@
   };
   outputs =
     inputs@{
-      home-manager,
-      nixvim,
       nixpkgs,
       nix-darwin,
-      nixos-apple-silicon,
       ...
     }:
     let
@@ -59,16 +56,7 @@
 
         modules = [
           ./host/ws
-          nixvim.nixosModules.nixvim
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.javier = import ./home/javier;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
+          ./home
         ];
       };
 
@@ -80,16 +68,7 @@
 
         modules = [
           ./host/mininix
-          nixvim.nixosModules.nixvim
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.javier = import ./home/javier;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
+          ./home
         ];
       };
 
@@ -101,16 +80,7 @@
 
         modules = [
           ./host/m2
-          nixvim.nixosModules.nixvim
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.javier = import ./home/javier;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
+          ./home
         ];
       };
 
@@ -122,16 +92,7 @@
 
         modules = [
           ./host/m1pro
-          nixvim.nixosModules.nixvim
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.javier = import ./home/javier;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-          }
+          ./home
         ];
       };
 
@@ -143,18 +104,7 @@
 
         modules = [
           ./host/m1pro-asahi
-          nixvim.nixosModules.nixvim
-          home-manager.nixosModules.home-manager
-          nixos-apple-silicon.nixosModules.apple-silicon-support
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.javier = import ./home/javier;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              enableAsahiWidevine = true;
-            };
-          }
+          ./home
         ];
       };
 
@@ -166,17 +116,8 @@
 
         modules = [
           ./host/uconsole
+          # ./home
           # nixvim.nixosModules.nixvim
-          # home-manager.nixosModules.home-manager
-          # {
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.users.javier = import ./home/javier;
-          #   home-manager.extraSpecialArgs = {
-          #     inherit inputs;
-          #     enableAsahiWidevine = true;
-          #   };
-          # }
         ];
       };
 

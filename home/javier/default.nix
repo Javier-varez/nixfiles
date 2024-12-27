@@ -3,7 +3,7 @@
   pkgs,
   lib,
   inputs,
-  enableAsahiWidevine ? false,
+  isAsahiLinux,
   ...
 }:
 let
@@ -30,7 +30,7 @@ let
 in
 {
   home.username = "javier";
-  home.homeDirectory = if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier";
+  home.homeDirectory = lib.mkForce (if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier");
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -110,7 +110,7 @@ in
 
     # Widevine configuration for asahi linux
     ".mozilla/firefox/${config.programs.firefox.profiles.javier.path}/gmp-widevinecdm" = {
-      enable = enableAsahiWidevine;
+      enable = isAsahiLinux;
       source = pkgs.runCommandLocal "firefox-widevinecdm" { } ''
         ln -s ${inputs.self.packages.${pkgs.system}.widevine}/gmp-widevinecdm $out
       '';
