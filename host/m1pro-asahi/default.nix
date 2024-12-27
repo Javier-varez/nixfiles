@@ -37,6 +37,7 @@
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
+      vhostUserPackages = with pkgs; [ virtiofsd ];
     };
   };
 
