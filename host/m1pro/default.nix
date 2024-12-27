@@ -1,7 +1,6 @@
 { inputs, pkgs, ... }:
 {
   imports = [
-    inputs.nixvim.nixosModules.nixvim
   ];
 
   # List packages installed in system profile. To search by name, run:

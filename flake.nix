@@ -40,7 +40,50 @@
         "aarch64-linux"
         "riscv64-linux"
       ];
-      forEachSystem = nixpkgs.lib.genAttrs systems;
+
+      lib = nixpkgs.lib;
+      forEachSystem = lib.genAttrs systems;
+
+      nixosSystems = {
+        ws = "x86_64-linux";
+        mininix = "x86_64-linux";
+        m1pro-asahi = "aarch64-linux";
+        uconsole = "aarch64-linux";
+      };
+
+      darwinSystems = {
+        m2 = "aarch64-darwin";
+        m1pro = "aarch64-darwin";
+      };
+
+      generateNixosSystem = name: system:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
+
+          modules = [
+            (./host + "/${name}")
+            ./home/nixos.nix
+          ];
+        };
+
+      generateDarwinSystem = name: system:
+        nix-darwin.lib.darwinSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
+
+          modules = [
+            (./host + "/${name}")
+            ./home/darwin.nix
+          ];
+        };
+
+      nixosConfigurations = lib.mapAttrs generateNixosSystem nixosSystems;
+      darwinConfigurations = lib.mapAttrs generateDarwinSystem darwinSystems;
     in
     {
       # Additional packages provided by this flake
@@ -48,78 +91,7 @@
         system: import ./pkgs { pkgs = inputs.nixpkgs.legacyPackages."${system}"; }
       );
 
-      nixosConfigurations.ws = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./host/ws
-          ./home
-        ];
-      };
-
-      nixosConfigurations.mininix = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./host/mininix
-          ./home
-        ];
-      };
-
-      darwinConfigurations.m2 = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./host/m2
-          ./home
-        ];
-      };
-
-      darwinConfigurations.m1pro = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./host/m1pro
-          ./home
-        ];
-      };
-
-      nixosConfigurations.m1pro-asahi = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./host/m1pro-asahi
-          ./home
-        ];
-      };
-
-      nixosConfigurations.uconsole = nixpkgs.lib.nixosSystem {
-        system = "riscv64-linux";
-        specialArgs = {
-          inherit inputs;
-        };
-
-        modules = [
-          ./host/uconsole
-          # ./home
-          # nixvim.nixosModules.nixvim
-        ];
-      };
-
+      inherit nixosConfigurations;
+      inherit darwinConfigurations;
     };
 }
