@@ -5,10 +5,15 @@
   pkgs,
   ...
 }:
+let
+  nixvim =
+    if config.isAsahiLinux then
+      inputs.nixvim.packages."${pkgs.system}".nvim-asahi
+    else
+      inputs.nixvim.packages."${pkgs.system}".nvim;
+in
 {
-  imports = [
-    inputs.nixvim.nixosModules.nixvim
-  ];
+  imports = [ ];
 
   options = {
     hasWindowManager = lib.mkOption {
@@ -95,6 +100,7 @@
       gnomeExtensions.pop-shell
       usbutils
       inputs.self.packages.${pkgs.system}.sunxi-tools
+      nixvim
     ];
 
     environment.gnome.excludePackages = with pkgs; [
@@ -193,15 +199,7 @@
 
     documentation.dev.enable = true;
 
-    nixpkgs.overlays = [
-      (final: prev: {
-        zig_0_13 = prev.zig_0_13.overrideAttrs {
-          patches =
-            prev.zig_0_13.patches
-            ++ lib.optionals config.isAsahiLinux [ ./patches/zig-fix-asahi-page-size.patch ];
-        };
-      })
-    ];
+    nixpkgs.overlays = lib.optional config.isAsahiLinux inputs.zig-asahi.overlays.zig-asahi;
 
     hardware =
       {

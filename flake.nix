@@ -6,9 +6,14 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zig-asahi = {
+      url = "github:javier-varez/zig-asahi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixvim = {
       url = "github:javier-varez/nixvim-cfg";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.zig-asahi.follows = "zig-asahi";
     };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";

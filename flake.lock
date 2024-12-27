@@ -484,14 +484,17 @@
           "nixpkgs"
         ],
         "nixpkgsOld": "nixpkgsOld",
-        "nixvim": "nixvim_2"
+        "nixvim": "nixvim_2",
+        "zig-asahi": [
+          "zig-asahi"
+        ]
       },
       "locked": {
-        "lastModified": 1733952254,
-        "narHash": "sha256-ivP3ynAqlOjo8tbtIVmCh7TiL4QMEgyLYkCwC7JZs2I=",
+        "lastModified": 1735309592,
+        "narHash": "sha256-gBhobMgjWrLSno6/nB0sN27jpQxC3IuDsoKz1MEJWRg=",
         "owner": "javier-varez",
         "repo": "nixvim-cfg",
-        "rev": "be630bdc8498c00f7a4d794e430b9b23d4b91db3",
+        "rev": "5e010f48911151c043d1b6ecbceb7f5a6391ccfa",
         "type": "github"
       },
       "original": {
@@ -562,7 +565,8 @@
         "nix-darwin": "nix-darwin",
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpkgs": "nixpkgs_2",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "zig-asahi": "zig-asahi"
       }
     },
     "rust-overlay": {
@@ -704,6 +708,26 @@
       "original": {
         "owner": "mitchellh",
         "repo": "zig-overlay",
+        "type": "github"
+      }
+    },
+    "zig-asahi": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1735309393,
+        "narHash": "sha256-O0opUMuxFy9oAM7fH8i5YMxmQxNt3UGKq5EVFPYpp9U=",
+        "owner": "javier-varez",
+        "repo": "zig-asahi",
+        "rev": "daf91dc2797484e0ce29667e46bf851ff516b154",
+        "type": "github"
+      },
+      "original": {
+        "owner": "javier-varez",
+        "repo": "zig-asahi",
         "type": "github"
       }
     }
