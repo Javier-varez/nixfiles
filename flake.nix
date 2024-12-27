@@ -48,6 +48,7 @@
         ws = "x86_64-linux";
         mininix = "x86_64-linux";
         m1pro-asahi = "aarch64-linux";
+        vm = "aarch64-linux";
         uconsole = "aarch64-linux";
       };
 
