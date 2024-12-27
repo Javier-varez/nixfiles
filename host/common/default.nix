@@ -95,6 +95,7 @@ in
       sudo
       man-pages
       man-pages-posix
+      file
       git
       fish
       gnomeExtensions.pop-shell

@@ -490,11 +490,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1735309592,
-        "narHash": "sha256-gBhobMgjWrLSno6/nB0sN27jpQxC3IuDsoKz1MEJWRg=",
+        "lastModified": 1735323264,
+        "narHash": "sha256-TOGP1k7oJ/2IXRoMHVASDjzdCc/JuUKDFJqBdwCGvMI=",
         "owner": "javier-varez",
         "repo": "nixvim-cfg",
-        "rev": "5e010f48911151c043d1b6ecbceb7f5a6391ccfa",
+        "rev": "e6f498b97bfda312e68833c3d74da3244f800e73",
         "type": "github"
       },
       "original": {
