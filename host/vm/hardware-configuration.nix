@@ -12,6 +12,8 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" "riscv64-linux" ];
+  boot.binfmt.preferStaticEmulators = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-label/NIXOS_ROOT";

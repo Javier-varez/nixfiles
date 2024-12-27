@@ -54,7 +54,10 @@
         mininix = "x86_64-linux";
         m1pro-asahi = "aarch64-linux";
         vm = "aarch64-linux";
-        uconsole = "aarch64-linux";
+        uconsole = {
+          system = "aarch64-linux";
+          disableHome = true;
+        };
       };
 
       darwinSystems = {
@@ -63,7 +66,11 @@
       };
 
       generateNixosSystem =
-        name: system:
+        name: systemOrAttr:
+        let
+          system = if builtins.isAttrs systemOrAttr then systemOrAttr.system else systemOrAttr;
+          enableHome = !(builtins.isAttrs systemOrAttr) || !systemOrAttr.disableHome;
+        in
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {
@@ -72,8 +79,8 @@
 
           modules = [
             (./host + "/${name}")
-            ./home/nixos.nix
-          ];
+
+          ] ++ lib.optional enableHome ./home/nixos.nix;
         };
 
       generateDarwinSystem =

@@ -13,7 +13,7 @@
 
   networking.hostName = "vm";
 
+  services.spice-vdagentd.enable = true;
+
   system.stateVersion = lib.mkForce "24.11";
-
 }
-
