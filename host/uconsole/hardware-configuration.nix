@@ -19,16 +19,6 @@
   boot.kernelPackages = pkgs.callPackage ./linux-kernel.nix { };
 
   swapDevices = [ ];
-  fileSystems = {
-    "/boot" = {
-      device = "/dev/mmcblk0p1";
-      fsType = "ext4";
-    };
-    "/" = {
-      device = "/dev/mmcblk0p2";
-      fsType = "ext4";
-    };
-  };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

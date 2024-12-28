@@ -31,6 +31,10 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
+    u-boot-uconsole = {
+      url = "github:javier-varez/u-boot/d1-wip";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{

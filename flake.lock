@@ -163,6 +163,24 @@
         "type": "github"
       }
     },
+    "flake-utils_5": {
+      "inputs": {
+        "systems": "systems_5"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "ghostty": {
       "inputs": {
         "nixpkgs-stable": [
@@ -566,6 +584,7 @@
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpkgs": "nixpkgs_2",
         "nixvim": "nixvim",
+        "u-boot-uconsole": "u-boot-uconsole",
         "zig-asahi": "zig-asahi"
       }
     },
@@ -664,6 +683,21 @@
         "type": "github"
       }
     },
+    "systems_5": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
@@ -683,6 +717,28 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "u-boot-uconsole": {
+      "inputs": {
+        "flake-utils": "flake-utils_5",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1735065719,
+        "narHash": "sha256-/y5ApUuqVFSWIxQX+E0cQSvgGzNTbq765I6uKzz66oM=",
+        "owner": "javier-varez",
+        "repo": "u-boot",
+        "rev": "dd4d6035f55e8303d9bbaf2c0526d6507b6bd4ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "javier-varez",
+        "ref": "d1-wip",
+        "repo": "u-boot",
         "type": "github"
       }
     },

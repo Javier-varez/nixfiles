@@ -147,6 +147,11 @@ in
     '';
   };
 
+  programs.atuin = {
+    enable = true;
+    enableNushellIntegration = true;
+  };
+
   programs.bat = {
     enable = true;
   };
