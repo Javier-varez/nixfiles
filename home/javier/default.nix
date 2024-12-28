@@ -34,6 +34,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   home.packages =
@@ -144,6 +145,8 @@ in
       $env.config = {
         edit_mode: "vi"
       }
+      $env.EDITOR = "nvim"
+      $env.VISUAL = "nvim"
     '';
   };
 
