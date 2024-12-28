@@ -82,6 +82,29 @@ in
     git
   ];
 
+  networking = {
+    firewall.enable = false;
+
+    interfaces = {
+      "usb0" = {
+        ipv4.addresses = [
+          {
+            address = "10.0.0.1";
+            prefixLength = 24;
+          }
+        ];
+      };
+    };
+
+    # Connect via 10.0.0.2 to host
+    defaultGateway = "10.0.0.2";
+
+    nameservers = [
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
