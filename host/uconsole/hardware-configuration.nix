@@ -13,7 +13,7 @@
 
   boot.initrd.includeDefaultModules = false;
   boot.initrd.availableKernelModules = [ ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "dm_mod" "i2c-mv64xxx" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   boot.kernelPackages = pkgs.callPackage ./linux-kernel.nix { };
