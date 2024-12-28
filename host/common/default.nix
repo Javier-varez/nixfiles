@@ -44,12 +44,12 @@ in
     i18n.defaultLocale = "en_US.UTF-8";
 
     # Enable the X11 windowing system.
-    services.xserver.enable = if config.hasWindowManager then true else false;
+    services.xserver.enable = config.hasWindowManager;
 
     # Enable the GNOME Desktop Environment.
-    services.xserver.displayManager.gdm.enable = if config.hasWindowManager then true else false;
+    services.xserver.displayManager.gdm.enable = config.hasWindowManager;
     services.xserver.desktopManager.gnome = {
-      enable = if config.hasWindowManager then true else false;
+      enable = config.hasWindowManager;
       extraGSettingsOverrides = ''
         # change key repeat rate
         [org.gnome.desktop.peripherals.keyboard]
@@ -91,18 +91,20 @@ in
 
     # List packages installed in system profile. To search, run:
     # $ nix search wget
-    environment.systemPackages = with pkgs; [
-      sudo
-      man-pages
-      man-pages-posix
-      file
-      git
-      fish
-      gnomeExtensions.pop-shell
-      usbutils
-      inputs.self.packages.${pkgs.system}.sunxi-tools
-      nixvim
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        sudo
+        man-pages
+        man-pages-posix
+        file
+        git
+        fish
+        usbutils
+        inputs.self.packages.${pkgs.system}.sunxi-tools
+        nixvim
+      ]
+      ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
 
     environment.gnome.excludePackages = with pkgs; [
       epiphany # gnome browser
@@ -110,7 +112,7 @@ in
 
     programs = {
       firefox = {
-        enable = true;
+        enable = config.hasWindowManager;
         languagePacks = [
           "en-US"
           "es-ES"
@@ -161,6 +163,7 @@ in
         };
 
       };
+
       fish.enable = true;
 
       # Add support for showing unknown commands in the shell
