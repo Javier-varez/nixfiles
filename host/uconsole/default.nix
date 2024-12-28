@@ -32,6 +32,7 @@ in
 
     kernelParams = [
       "console=ttyS1,115200n8"
+      "console=ttyGS0,115200"
       "earlycon=sbi"
 
       # Enable for debugging initrd issues
