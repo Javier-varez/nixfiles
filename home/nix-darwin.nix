@@ -9,6 +9,7 @@
   home-manager.users.javier = import ./javier;
   home-manager.extraSpecialArgs = {
     inherit inputs;
-    isAsahiLinux = config.isAsahiLinux;
+    isAsahiLinux = false;
+    hasWindowManager = true;
   };
 }

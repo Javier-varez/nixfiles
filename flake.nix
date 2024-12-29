@@ -60,7 +60,7 @@
         vm = "aarch64-linux";
         uconsole = {
           system = "aarch64-linux";
-          disableHome = true;
+          disableHome = false;
         };
       };
 

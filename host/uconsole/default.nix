@@ -21,6 +21,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./sd-card.nix
+    ../common/configs.nix
   ];
 
   boot = {
@@ -74,6 +75,7 @@ in
       tree
     ];
     hashedPasswordFile = "${javier-pwd}";
+    shell = pkgs.nushell;
   };
 
   environment.systemPackages = with pkgs; [

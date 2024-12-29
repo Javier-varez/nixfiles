@@ -10,5 +10,6 @@
   home-manager.extraSpecialArgs = {
     inherit inputs;
     isAsahiLinux = config.isAsahiLinux;
+    hasWindowManager = config.hasWindowManager;
   };
 }

@@ -13,228 +13,214 @@ let
       inputs.nixvim.packages."${pkgs.system}".nvim;
 in
 {
-  imports = [ ];
+  imports = [ ./configs.nix ];
 
-  options = {
-    hasWindowManager = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-    };
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = !config.isAsahiLinux;
 
-    isAsahiLinux = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-    };
+  networking.networkmanager.enable = true;
+  networking.wireless.iwd = {
+    enable = config.isAsahiLinux;
+    settings.General.EnableNetworkConfiguration = true;
   };
 
-  config = {
-    # Use the systemd-boot EFI boot loader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = !config.isAsahiLinux;
+  # Set your time zone.
+  time.timeZone = lib.mkDefault "Europe/Zurich";
 
-    networking.networkmanager.enable = true;
-    networking.wireless.iwd = {
-      enable = config.isAsahiLinux;
-      settings.General.EnableNetworkConfiguration = true;
-    };
+  i18n.defaultLocale = "en_US.UTF-8";
 
-    # Set your time zone.
-    time.timeZone = lib.mkDefault "Europe/Zurich";
+  # Enable the X11 windowing system.
+  services.xserver.enable = config.hasWindowManager;
 
-    i18n.defaultLocale = "en_US.UTF-8";
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = config.hasWindowManager;
+  services.xserver.desktopManager.gnome = {
+    enable = config.hasWindowManager;
+    extraGSettingsOverrides = ''
+      # change key repeat rate
+      [org.gnome.desktop.peripherals.keyboard]
+      repeat-interval=15
+      delay=200
 
-    # Enable the X11 windowing system.
-    services.xserver.enable = config.hasWindowManager;
+      [org.gnome.desktop.interface]
+      color-scheme="prefer-dark"
+    '';
+  };
 
-    # Enable the GNOME Desktop Environment.
-    services.xserver.displayManager.gdm.enable = config.hasWindowManager;
-    services.xserver.desktopManager.gnome = {
-      enable = config.hasWindowManager;
-      extraGSettingsOverrides = ''
-        # change key repeat rate
-        [org.gnome.desktop.peripherals.keyboard]
-        repeat-interval=15
-        delay=200
+  # Configure keymap in X11
+  services.xserver.xkb.layout = "us";
 
-        [org.gnome.desktop.interface]
-        color-scheme="prefer-dark"
-      '';
-    };
+  services.printing.enable = true;
 
-    # Configure keymap in X11
-    services.xserver.xkb.layout = "us";
-
-    services.printing.enable = true;
-
-    users.users.javier = {
-      isNormalUser = true;
-      description = "Javier Alvarez";
-      createHome = true;
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-      ]; # Enable ‘sudo’ for the user.
-      packages = with pkgs; [
-        firefox
-        tree
-      ];
-      shell = pkgs.nushell;
-    };
-
-    # Enable sound.
-    # hardware.pulseaudio.enable = true;
-    # OR
-    # services.pipewire = {
-    #   enable = true;
-    #   pulse.enable = true;
-    # };
-
-    # List packages installed in system profile. To search, run:
-    # $ nix search wget
-    environment.systemPackages =
-      with pkgs;
-      [
-        sudo
-        man-pages
-        man-pages-posix
-        file
-        git
-        fish
-        usbutils
-        inputs.self.packages.${pkgs.system}.sunxi-tools
-        nixvim
-      ]
-      ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
-
-    environment.gnome.excludePackages = with pkgs; [
-      epiphany # gnome browser
+  users.users.javier = {
+    isNormalUser = true;
+    description = "Javier Alvarez";
+    createHome = true;
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
+      firefox
+      tree
     ];
+    shell = pkgs.nushell;
+  };
 
-    programs = {
-      firefox = {
-        enable = config.hasWindowManager;
-        languagePacks = [
-          "en-US"
-          "es-ES"
-        ];
+  # Enable sound.
+  # hardware.pulseaudio.enable = true;
+  # OR
+  # services.pipewire = {
+  #   enable = true;
+  #   pulse.enable = true;
+  # };
 
-        autoConfig = lib.optionalString config.isAsahiLinux ''
-          pref("media.gmp-widevinecdm.version", "system-installed");
-          pref("media.gmp-widevinecdm.visible", true);
-          pref("media.gmp-widevinecdm.enabled", true);
-          pref("media.gmp-widevinecdm.autoupdate", false);
-          pref("media.eme.enabled", true);
-          pref("media.eme.encrypted-media-encryption-scheme.enabled", true);
-        '';
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages =
+    with pkgs;
+    [
+      sudo
+      man-pages
+      man-pages-posix
+      file
+      git
+      fish
+      usbutils
+      inputs.self.packages.${pkgs.system}.sunxi-tools
+      nixvim
+    ]
+    ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
 
-        policies = {
-          DisableTelemetry = true;
-          DisableFirefoxStudies = true;
-          DontCheckDefaultBrowser = true;
+  environment.gnome.excludePackages = with pkgs; [
+    epiphany # gnome browser
+  ];
 
-          ExtensionSettings =
-            {
-              "*".installation_mode = "blocked";
-              # Vimium
-              "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
-                installation_mode = "force_installed";
-                install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
-              };
-              # Dark reader
-              "addon@darkreader.org" = {
-                installation_mode = "force_installed";
-                install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
-              };
-            }
-            // lib.optionalAttrs config.isAsahiLinux {
-              # User-Agent Switcher and Manager
-              "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
-                installation_mode = "force_installed";
-                install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
-              };
+  programs = {
+    firefox = {
+      enable = config.hasWindowManager;
+      languagePacks = [
+        "en-US"
+        "es-ES"
+      ];
+
+      autoConfig = lib.optionalString config.isAsahiLinux ''
+        pref("media.gmp-widevinecdm.version", "system-installed");
+        pref("media.gmp-widevinecdm.visible", true);
+        pref("media.gmp-widevinecdm.enabled", true);
+        pref("media.gmp-widevinecdm.autoupdate", false);
+        pref("media.eme.enabled", true);
+        pref("media.eme.encrypted-media-encryption-scheme.enabled", true);
+      '';
+
+      policies = {
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        DontCheckDefaultBrowser = true;
+
+        ExtensionSettings =
+          {
+            "*".installation_mode = "blocked";
+            # Vimium
+            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
             };
-
-          Preferences = {
-            "extensions.pocket.enabled" = {
-              Status = "locked";
-              Value = false;
+            # Dark reader
+            "addon@darkreader.org" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
+            };
+          }
+          // lib.optionalAttrs config.isAsahiLinux {
+            # User-Agent Switcher and Manager
+            "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
+              installation_mode = "force_installed";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
             };
           };
+
+        Preferences = {
+          "extensions.pocket.enabled" = {
+            Status = "locked";
+            Value = false;
+          };
         };
-
       };
 
-      fish.enable = true;
-
-      # Add support for showing unknown commands in the shell
-      command-not-found.enable = false;
-      nix-index = {
-        enable = true;
-        enableFishIntegration = true;
-      };
     };
 
-    services.udev.packages = [
-      (pkgs.writeTextFile {
-        name = "70-allwinner-fex.rules";
-        text = ''
-          # FEL access to allwinner devices
-          SUBSYSTEM=="usb", ATTRS{idVendor}=="1f3a", ATTRS{idProduct}=="efe8", MODE="660", TAG+="uaccess"
-        '';
-        destination = "/etc/udev/rules.d/70-allwinner-fex.rules";
-      })
-    ];
+    fish.enable = true;
 
-    systemd.sleep.extraConfig = ''
-      AllowSuspend=no
-      AllowHibernation=no
-      AllowHybridSleep=no
-      AllowSuspendThenHibernate=no
-    '';
-
-    nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-
-    nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-
-    nixpkgs.config.allowUnfree = true;
-
-    documentation.dev.enable = true;
-
-    nixpkgs.overlays = lib.optional config.isAsahiLinux inputs.zig-asahi.overlays.zig-asahi;
-
-    hardware =
-      {
-        # Enables udev rules for glasgow interface explorer
-        glasgow.enable = true;
-      }
-      // (lib.optionalAttrs config.isAsahiLinux {
-        asahi = {
-          enable = true;
-          useExperimentalGPUDriver = true;
-          # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
-        };
-      });
-
-    # This option defines the first version of NixOS you have installed on this particular machine,
-    # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-    #
-    # Most users should NEVER change this value after the initial install, for any reason,
-    # even if you've upgraded your system to a new NixOS release.
-    #
-    # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-    # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-    # to actually do that.
-    #
-    # This value being lower than the current NixOS release does NOT mean your system is
-    # out of date, out of support, or vulnerable.
-    #
-    # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-    # and migrated your data accordingly.
-    #
-    # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-    system.stateVersion = "24.05"; # Did you read the comment?
+    # Add support for showing unknown commands in the shell
+    command-not-found.enable = false;
+    nix-index = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
+
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "70-allwinner-fex.rules";
+      text = ''
+        # FEL access to allwinner devices
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="1f3a", ATTRS{idProduct}=="efe8", MODE="660", TAG+="uaccess"
+      '';
+      destination = "/etc/udev/rules.d/70-allwinner-fex.rules";
+    })
+  ];
+
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=no
+    AllowHibernation=no
+    AllowHybridSleep=no
+    AllowSuspendThenHibernate=no
+  '';
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
+  nixpkgs.config.allowUnfree = true;
+
+  documentation.dev.enable = true;
+
+  nixpkgs.overlays = lib.optional config.isAsahiLinux inputs.zig-asahi.overlays.zig-asahi;
+
+  hardware =
+    {
+      # Enables udev rules for glasgow interface explorer
+      glasgow.enable = true;
+    }
+    // (lib.optionalAttrs config.isAsahiLinux {
+      asahi = {
+        enable = true;
+        useExperimentalGPUDriver = true;
+        # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
+      };
+    });
+
+  # This option defines the first version of NixOS you have installed on this particular machine,
+  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
+  #
+  # Most users should NEVER change this value after the initial install, for any reason,
+  # even if you've upgraded your system to a new NixOS release.
+  #
+  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
+  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+  # to actually do that.
+  #
+  # This value being lower than the current NixOS release does NOT mean your system is
+  # out of date, out of support, or vulnerable.
+  #
+  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
+  # and migrated your data accordingly.
+  #
+  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

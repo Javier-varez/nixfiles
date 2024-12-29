@@ -4,6 +4,7 @@
   lib,
   inputs,
   isAsahiLinux,
+  hasWindowManager,
   ...
 }:
 let
@@ -27,10 +28,23 @@ let
       ".config/ghostty/config"
     else
       "Library/Application Support/com.mitchellh.ghostty/config";
+
+  isRiscv64 = pkgs.system == "riscv64-linux";
+
+  hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
+  hasGhostty = hasWindowManager && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
+  hasFirefox = hasWindowManager;
+
+  iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.system}".default;
+  ghosttyPkg = lib.optional hasGhostty (
+    inputs.ghostty.packages.${pkgs.system}.default.override { inherit (pkgs) zig_0_13; }
+  );
 in
 {
   home.username = "javier";
-  home.homeDirectory = lib.mkForce (if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier");
+  home.homeDirectory = lib.mkForce (
+    if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier"
+  );
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -45,59 +59,49 @@ in
       htop
       home-manager
       starship
-      fish
       gitui
       nerdfonts
-      alacritty
       xclip
       rustup
-      tmux
       fastfetch
       onefetch
-      nixfmt-rfc-style
-      nixd
       ripgrep
       fd
-      nushell
-      python3
-      kubectl
-      k9s
       git-crypt
-      git-repo
       gnumake
-      gcc14
-      llvm_19
-      lld_19
+      gcc
+      llvm
+      lld
       flex
       bison
+    ]
+    ++ (lib.optionals (!isRiscv64) [
+      # need to make the packages work on riscv64-linux
+      nixfmt-rfc-style
+      nixd
+      python3
+      git-repo
+      kubectl
+      k9s
       glasgow
       zig_0_13
-      inputs.iamb.packages."${pkgs.system}".default
-      (inputs.ghostty.packages.${pkgs.system}.default.override {
-        # We need to make sure to use our patched zig package for asahi-linux.
-        inherit zig_0_13;
-      })
-    ]
-    ++ lib.optionals stdenv.isLinux [
-      # Packages only available in linux
+    ])
+    ++ (lib.optionals (stdenv.isLinux && !isRiscv64) [
+      # Packages only available in linux (except riscv64-linux)
       telegram-desktop
       fractal
       bitwarden-cli
       bitwarden-desktop
       protonvpn-cli
       protonvpn-gui
-    ]
-    ++ (with python3Packages; [
-      matplotlib
-      numpy
-      pandas
-      black
-    ]);
+    ])
+    ++ iambPackage
+    ++ ghosttyPkg;
 
   home.file = {
     # iamb configuration file
     "${iambConfigPath}" = {
-      enable = true;
+      enable = hasIamb;
       text = ''
         default_profile = "user"
 
@@ -112,7 +116,7 @@ in
 
     # Widevine configuration for asahi linux
     ".mozilla/firefox/${config.programs.firefox.profiles.javier.path}/gmp-widevinecdm" = {
-      enable = isAsahiLinux;
+      enable = hasFirefox && isAsahiLinux;
       source = pkgs.runCommandLocal "firefox-widevinecdm" { } ''
         ln -s ${inputs.self.packages.${pkgs.system}.widevine}/gmp-widevinecdm $out
       '';
@@ -120,7 +124,7 @@ in
 
     # Ghostty configuration
     "${ghosttyConfigPath}" = {
-      enable = true;
+      enable = hasGhostty;
       source = ./ghostty.config;
     };
   };
@@ -175,39 +179,6 @@ in
     };
   };
 
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      window = {
-        # decorations = "None";
-        opacity = 0.9;
-        padding = {
-          x = 10;
-          y = 10;
-        };
-      };
-      font = {
-        normal = {
-          family = "FantasqueSansM Nerd Font Mono";
-          style = "Regular";
-        };
-        bold = {
-          family = "FantasqueSansM Nerd Font Mono";
-          style = "Bold";
-        };
-        italic = {
-          family = "FantasqueSansM Nerd Font Mono";
-          style = "Italic";
-        };
-        bold_italic = {
-          family = "FantasqueSansM Nerd Font Mono";
-          style = "Bold Italic";
-        };
-        size = 12;
-      };
-    };
-  };
-
   programs = {
     tmux = {
       enable = true;
@@ -219,7 +190,7 @@ in
     };
 
     firefox = {
-      enable = true;
+      enable = hasFirefox;
 
       # Firefox should be installed by the system already, we use this only to manage profiles
       package = null;
