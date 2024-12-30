@@ -8,11 +8,25 @@
   ...
 }:
 let
+  isRiscv64 = pkgs.system == "riscv64-linux";
+
+  hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
+  hasGhostty = hasWindowManager && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
+  hasFirefox = hasWindowManager;
+  hasNeovim = !isRiscv64;
+
+  iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.system}".default;
+  ghosttyPkg = lib.optional hasGhostty (
+    inputs.ghostty.packages.${pkgs.system}.default.override { inherit (pkgs) zig_0_13; }
+  );
+
+  editor = if hasNeovim then "nvim" else "vim";
+
   shellAliases = {
     l = "ls";
     ll = "ls -l";
-    vi = "nvim";
-    vim = "nvim";
+    vi = editor;
+    vim = editor;
     gits = "git status";
     cat = "bat";
     k = "kubectl";
@@ -28,17 +42,6 @@ let
       ".config/ghostty/config"
     else
       "Library/Application Support/com.mitchellh.ghostty/config";
-
-  isRiscv64 = pkgs.system == "riscv64-linux";
-
-  hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
-  hasGhostty = hasWindowManager && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
-  hasFirefox = hasWindowManager;
-
-  iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.system}".default;
-  ghosttyPkg = lib.optional hasGhostty (
-    inputs.ghostty.packages.${pkgs.system}.default.override { inherit (pkgs) zig_0_13; }
-  );
 in
 {
   home.username = "javier";
@@ -47,14 +50,15 @@ in
   );
 
   home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
+    EDITOR = editor;
+    VISUAL = editor;
   };
 
   home.packages =
     with pkgs;
     [
       sudo
+      vim
       git
       htop
       home-manager
@@ -149,8 +153,8 @@ in
       $env.config = {
         edit_mode: "vi"
       }
-      $env.EDITOR = "nvim"
-      $env.VISUAL = "nvim"
+      $env.EDITOR = "${editor}"
+      $env.VISUAL = "${editor}"
     '';
   };
 
