@@ -37,15 +37,6 @@ in
   services.xserver.displayManager.gdm.enable = config.hasWindowManager;
   services.xserver.desktopManager.gnome = {
     enable = config.hasWindowManager;
-    extraGSettingsOverrides = ''
-      # change key repeat rate
-      [org.gnome.desktop.peripherals.keyboard]
-      repeat-interval=15
-      delay=200
-
-      [org.gnome.desktop.interface]
-      color-scheme="prefer-dark"
-    '';
   };
 
   # Configure keymap in X11

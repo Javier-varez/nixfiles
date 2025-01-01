@@ -9,6 +9,7 @@
 }:
 let
   isRiscv64 = pkgs.system == "riscv64-linux";
+  isLinux = lib.hasSuffix "-linux" pkgs.system;
 
   hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
   hasGhostty = hasWindowManager && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
@@ -42,6 +43,26 @@ let
       ".config/ghostty/config"
     else
       "Library/Application Support/com.mitchellh.ghostty/config";
+
+  wallpaper = pkgs.stdenv.mkDerivation {
+    pname = "wallpaper";
+    version = "1.0.0";
+    src = ./wallpaper.jpg;
+    phases = ["installPhase"];
+    installPhase = ''
+      install -D $src $out
+    '';
+  };
+
+  wallpaper-clear = pkgs.stdenv.mkDerivation {
+    pname = "wallpaper-clear";
+    version = "1.0.0";
+    src = ./wallpaper-clear.jpg;
+    phases = ["installPhase"];
+    installPhase = ''
+      install -D $src $out
+    '';
+  };
 in
 {
   home.username = "javier";
@@ -203,12 +224,51 @@ in
         isDefault = true;
       };
     };
+
+  };
+
+  dconf.settings = {
+    "org/gnome/desktop/peripherals/keyboard" = with lib.hm.gvariant; {
+      repeat-interval = mkUint32 15;
+      delay = mkUint32 200;
+    };
+
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+      show-battery-percentage = true;
+    };
+
+    "org/gnome/mutter" = {
+      dynamic-workspaces = true;
+    };
+
+    "org/gnome/desktop/background" = {
+      picture-uri = "file://${wallpaper-clear}";
+      picture-uri-dark = "file://${wallpaper}";
+    };
   };
 
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
       monospace = [ "FantasqueSansM Nerd Font Mono" ];
+    };
+  };
+
+  xdg.mimeApps = {
+    enable = hasWindowManager && isLinux;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+      "x-scheme-handler/about" = "firefox.desktop";
+      "x-scheme-handler/unknown" = "firefox.desktop";
+
+      "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
+      "x-scheme-handler/tonsite" = "org.telegram.desktop.desktop";
+      "application/pdf" = "org.gnome.Evince.desktop";
+      "image/png" = "org.gnome.Evince.desktop";
+      "image/jpeg" = "org.gnome.Evince.desktop";
     };
   };
 }
