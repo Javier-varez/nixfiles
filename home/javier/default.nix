@@ -267,8 +267,8 @@ in
       "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
       "x-scheme-handler/tonsite" = "org.telegram.desktop.desktop";
       "application/pdf" = "org.gnome.Evince.desktop";
-      "image/png" = "org.gnome.Evince.desktop";
-      "image/jpeg" = "org.gnome.Evince.desktop";
+      "image/png" = "org.gnome.Loupe.desktop";
+      "image/jpeg" = "org.gnome.Loupe.desktop";
     };
   };
 }
