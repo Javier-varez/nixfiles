@@ -16,6 +16,13 @@
   hardware.asahi.peripheralFirmwareDirectory = ../../firmware/m1pro-asahi;
 
   networking.hostName = "m1pro-asahi"; # Define your hostname.
+  networking.networkmanager = {
+    enableStrongSwan = true;
+  };
+
+  services.strongswan = {
+    enable = true;
+  };
 
   users.users.javier.extraGroups = [
     "libvirtd"
