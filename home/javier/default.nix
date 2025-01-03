@@ -171,8 +171,20 @@ in
     inherit shellAliases;
 
     extraEnv = ''
+      let fish_completer = {|spans|
+        fish --command $'complete "--do-complete=($spans | str join " ")"'
+          | from tsv --flexible --noheaders --no-infer
+          | rename value description
+      }
+
       $env.config = {
         edit_mode: "vi"
+          completions: {
+            external: {
+              enable: true
+              completer: $fish_completer
+            }
+        }
       }
       $env.EDITOR = "${editor}"
       $env.VISUAL = "${editor}"
