@@ -9,10 +9,11 @@
 }:
 let
   isRiscv64 = pkgs.system == "riscv64-linux";
-  isLinux = lib.hasSuffix "-linux" pkgs.system;
+  inherit (pkgs.stdenv) isLinux isDarwin;
 
   hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
-  hasGhostty = hasWindowManager && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
+  hasGhostty =
+    hasWindowManager && !isDarwin && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
   hasFirefox = hasWindowManager;
   hasNeovim = !isRiscv64;
 
@@ -34,21 +35,18 @@ let
   };
 
   iambConfigPath =
-    if pkgs.stdenv.isLinux then
-      ".config/iamb/config.toml"
-    else
-      "Library/Application Support/iamb/config.toml";
-  ghosttyConfigPath =
-    if pkgs.stdenv.isLinux then
-      ".config/ghostty/config"
-    else
-      "Library/Application Support/com.mitchellh.ghostty/config";
+    if isLinux then ".config/iamb/config.toml" else "Library/Application Support/iamb/config.toml";
+  ghosttyConfigBasePath =
+    if isLinux then ".config/ghostty" else "Library/Application Support/com.mitchellh.ghostty";
+  ghosttyConfigPath = "${ghosttyConfigBasePath}/config";
+  ghosttyDarwinConfigPath = "${ghosttyConfigBasePath}/darwin";
+  ghosttyLinuxConfigPath = "${ghosttyConfigBasePath}/linux";
 
   wallpaper = pkgs.stdenv.mkDerivation {
     pname = "wallpaper";
     version = "1.0.0";
     src = ./wallpaper.jpg;
-    phases = ["installPhase"];
+    phases = [ "installPhase" ];
     installPhase = ''
       install -D $src $out
     '';
@@ -58,7 +56,7 @@ let
     pname = "wallpaper-clear";
     version = "1.0.0";
     src = ./wallpaper-clear.jpg;
-    phases = ["installPhase"];
+    phases = [ "installPhase" ];
     installPhase = ''
       install -D $src $out
     '';
@@ -66,9 +64,7 @@ let
 in
 {
   home.username = "javier";
-  home.homeDirectory = lib.mkForce (
-    if pkgs.system == "aarch64-darwin" then "/Users/javier" else "/home/javier"
-  );
+  home.homeDirectory = lib.mkForce (if isDarwin then "/Users/javier" else "/home/javier");
 
   home.sessionVariables = {
     EDITOR = editor;
@@ -78,7 +74,6 @@ in
   home.packages =
     with pkgs;
     [
-      sudo
       vim
       git
       htop
@@ -111,7 +106,8 @@ in
       glasgow
       zig_0_13
     ])
-    ++ (lib.optionals (stdenv.isLinux && !isRiscv64) [
+    ++ (lib.optionals isLinux [ sudo ])
+    ++ (lib.optionals (isLinux && !isRiscv64) [
       # Packages only available in linux (except riscv64-linux)
       telegram-desktop
       fractal
@@ -149,8 +145,19 @@ in
 
     # Ghostty configuration
     "${ghosttyConfigPath}" = {
-      enable = hasGhostty;
+      # in darwin we can't install ghostty automatically, but we can add the configuration
+      enable = hasGhostty || isDarwin;
       source = ./ghostty.config;
+    };
+
+    "${ghosttyDarwinConfigPath}" = {
+      enable = isDarwin;
+      source = ./ghostty_darwin.config;
+    };
+
+    "${ghosttyLinuxConfigPath}" = {
+      enable = hasGhostty && isLinux;
+      source = ./ghostty_linux.config;
     };
   };
 
@@ -227,7 +234,7 @@ in
     };
 
     firefox = {
-      enable = hasFirefox;
+      enable = hasFirefox && isAsahiLinux;
 
       # Firefox should be installed by the system already, we use this only to manage profiles
       package = null;

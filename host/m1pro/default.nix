@@ -9,6 +9,7 @@
     pkgs.vim
     pkgs.iterm2
     inputs.self.packages.${pkgs.system}.ltapiserv-rs
+    inputs.nixvim.packages."${pkgs.system}".nvim
   ];
 
   # Auto upgrade nix package and the daemon service.

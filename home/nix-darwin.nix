@@ -1,7 +1,7 @@
 { config, inputs, ... }:
 {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
+    inputs.home-manager.darwinModules.home-manager
   ];
 
   home-manager.useGlobalPkgs = true;

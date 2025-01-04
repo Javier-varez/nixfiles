@@ -97,7 +97,7 @@
 
           modules = [
             (./host + "/${name}")
-            ./home/darwin.nix
+            ./home/nix-darwin.nix
           ];
         };
 
