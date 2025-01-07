@@ -150,6 +150,11 @@ in
       enable = true;
       enableFishIntegration = true;
     };
+
+    direnv = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
 
   services.udev.packages = [
@@ -170,10 +175,13 @@ in
     AllowSuspendThenHibernate=no
   '';
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    trusted-users = [ "@wheel" ];
+  };
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
