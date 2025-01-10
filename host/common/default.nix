@@ -51,11 +51,8 @@ in
     extraGroups = [
       "networkmanager"
       "wheel"
-    ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-      tree
     ];
+    packages = with pkgs; [ firefox ];
     shell = pkgs.nushell;
   };
 
@@ -91,6 +88,9 @@ in
   programs = {
     firefox = {
       enable = config.hasWindowManager;
+
+      package = pkgs.firefox;
+
       languagePacks = [
         "en-US"
         "es-ES"
