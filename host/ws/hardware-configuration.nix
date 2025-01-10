@@ -26,6 +26,7 @@
   ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_ROOT";
