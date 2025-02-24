@@ -71,23 +71,28 @@ in
     VISUAL = editor;
   };
 
+  home.sessionPath = [
+    "$HOME/.cargo/bin"
+  ];
+
   home.packages =
     with pkgs;
     [
+      starship
+      nerdfonts
       vim
       git
+      git-lfs
+      gitui
+      git-crypt
       htop
       home-manager
-      starship
-      gitui
-      nerdfonts
       xclip
       rustup
       fastfetch
       onefetch
       ripgrep
       fd
-      git-crypt
       gnumake
       gcc
       llvm
