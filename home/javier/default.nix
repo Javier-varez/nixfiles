@@ -164,6 +164,16 @@ in
       enable = hasGhostty && isLinux;
       source = ./ghostty_linux.config;
     };
+
+    ".config/aerospace" = {
+      enable = isDarwin;
+      source = ./aerospace;
+    };
+
+    ".config/sketchybar" = {
+      enable = isDarwin;
+      source = ./sketchybar;
+    };
   };
 
   home.stateVersion = "24.05";
