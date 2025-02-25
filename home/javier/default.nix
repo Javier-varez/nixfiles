@@ -73,7 +73,7 @@ in
 
   home.sessionPath = [
     "$HOME/.cargo/bin"
-  ];
+  ] ++ (lib.optionals isDarwin [ "/opt/homebrew/bin" ]);
 
   home.packages =
     with pkgs;
