@@ -51,6 +51,8 @@ in
     extraGroups = [
       "networkmanager"
       "wheel"
+      "plugdev"
+      "dialout"
     ];
     packages = with pkgs; [ firefox ];
     shell = pkgs.nushell;
