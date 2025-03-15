@@ -18,9 +18,7 @@ let
   hasNeovim = !isRiscv64;
 
   iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.system}".default;
-  ghosttyPkg = lib.optional hasGhostty (
-    inputs.ghostty.packages.${pkgs.system}.default.override { inherit (pkgs) zig_0_13; }
-  );
+  ghosttyPkg = lib.optional hasGhostty (inputs.ghostty.packages.${pkgs.system}.default);
 
   editor = if hasNeovim then "nvim" else "vim";
 
