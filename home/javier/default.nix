@@ -99,6 +99,7 @@ in
       lld
       flex
       bison
+      asciinema
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
