@@ -3,6 +3,7 @@
   imports = [
     ../common
     ./hardware-configuration.nix
+    ../../cluster/node
   ];
 
   networking.hostName = "mininix"; # Define your hostname.

@@ -1,2 +1,3 @@
 firmware/** filter=git-crypt diff=git-crypt
 *.secret filter=git-crypt diff=git-crypt
+cluster/** filter=git-crypt diff=git-crypt
