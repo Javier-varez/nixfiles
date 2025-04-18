@@ -60,9 +60,9 @@ let
     '';
   };
 in
-{
+rec {
   home.username = "javier";
-  home.homeDirectory = lib.mkForce (if isDarwin then "/Users/javier" else "/home/javier");
+  home.homeDirectory = if isDarwin then "/Users/javier" else "/home/javier";
 
   home.sessionVariables = {
     EDITOR = editor;
@@ -98,6 +98,8 @@ in
       flex
       bison
       asciinema
+      go
+      ninja
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
@@ -224,6 +226,8 @@ in
 
       $env.EDITOR = "${editor}"
       $env.VISUAL = "${editor}"
+      $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/go/bin")
+      $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/.cargo/bin")
     '';
   };
 
