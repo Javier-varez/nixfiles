@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+  inputs,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -13,4 +17,6 @@
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
+  environment.systemPackages = [ inputs.self.packages.${pkgs.system}.vivado ];
 }
