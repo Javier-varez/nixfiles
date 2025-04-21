@@ -71,6 +71,7 @@ rec {
 
   home.sessionPath = [
     "$HOME/.cargo/bin"
+    "$HOME/go/bin"
   ] ++ (lib.optionals isDarwin [ "/opt/homebrew/bin" ]);
 
   home.packages =
@@ -100,7 +101,6 @@ rec {
       asciinema
       go
       ninja
-      bluespec
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
@@ -113,7 +113,10 @@ rec {
       glasgow
       zig_0_13
     ])
-    ++ (lib.optionals isLinux [ sudo ])
+    ++ (lib.optionals isLinux [
+      sudo
+      bluespec
+    ])
     ++ (lib.optionals (isLinux && !isRiscv64) [
       # Packages only available in linux (except riscv64-linux)
       telegram-desktop

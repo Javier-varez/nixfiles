@@ -168,6 +168,14 @@ in
       '';
       destination = "/etc/udev/rules.d/70-allwinner-fex.rules";
     })
+
+    (pkgs.writeTextFile {
+      name = "70-digilent.rules";
+      text = ''
+        ACTION=="add", ATTR{idVendor}=="0403", ATTR{manufacturer}=="Digilent", MODE:="666"
+      '';
+      destination = "/etc/udev/rules.d/70-digilent.rules";
+    })
   ];
 
   systemd.sleep.extraConfig = ''
