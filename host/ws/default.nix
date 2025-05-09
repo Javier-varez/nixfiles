@@ -12,6 +12,15 @@
 
   networking.hostName = "ws"; # Define your hostname.
 
+  programs.virt-manager.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups = {
+    libvirtd.members = ["javier"];
+    vboxusers.members = [ "javier" ];
+  };
+
   services.openssh.enable = true;
   services.blueman.enable = true;
 
