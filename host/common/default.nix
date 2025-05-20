@@ -176,6 +176,13 @@ in
       '';
       destination = "/etc/udev/rules.d/70-digilent.rules";
     })
+    (pkgs.writeTextFile {
+      name = "70-stlink.rules";
+      text = ''
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374e", MODE="660", TAG+="uaccess"
+      '';
+      destination = "/etc/udev/rules.d/70-stlink.rules";
+    })
   ];
 
   systemd.sleep.extraConfig = ''
