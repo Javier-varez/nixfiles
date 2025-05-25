@@ -29,15 +29,6 @@ rustPlatform.buildRustPackage rec {
     gzip
   ];
 
-  buildInputs =
-    with pkgs;
-    lib.optionals stdenv.isDarwin [
-      # Additional darwin specific inputs can be set here
-      # libiconv
-      darwin.apple_sdk.frameworks.SystemConfiguration
-      darwin.apple_sdk.frameworks.CoreServices
-    ];
-
   src = fetchFromGitHub {
     owner = "cpg314";
     repo = pname;
@@ -59,7 +50,7 @@ rustPlatform.buildRustPackage rec {
     tar tvf en_US.tar.gz
   '';
 
-  cargoHash = "sha256-W0sU9mY9nVrth/SBiQFhv7nJjDFQYrQB/470Jv7ln4s=";
+  cargoHash = "sha256-3wLoDxUGHPxtj2K9V79bv3t0eVlscz1Clb/eO2xoQIU=";
 
   meta = {
     description = "Server implementation of the LanguageTool API for offline grammar and spell checking, based on nlprule and symspell. And a small graphical command-line client.";
