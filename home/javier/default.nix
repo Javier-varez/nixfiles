@@ -78,7 +78,6 @@ rec {
     with pkgs;
     [
       starship
-      nerdfonts
       vim
       git
       git-lfs
@@ -111,7 +110,7 @@ rec {
       kubectl
       k9s
       glasgow
-      zig_0_13
+      zig_0_14
     ])
     ++ (lib.optionals isLinux [
       sudo
@@ -304,10 +303,12 @@ rec {
     };
   };
 
-  fonts.fontconfig = {
-    enable = true;
-    defaultFonts = {
-      monospace = [ "FantasqueSansM Nerd Font Mono" ];
+  fonts = {
+    fontconfig = {
+      enable = true;
+      defaultFonts = {
+        monospace = [ "FantasqueSansM Nerd Font Mono" ];
+      };
     };
   };
 

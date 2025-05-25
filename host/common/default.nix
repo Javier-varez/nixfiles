@@ -6,11 +6,7 @@
   ...
 }:
 let
-  nixvim =
-    if config.isAsahiLinux then
-      inputs.nixvim.packages."${pkgs.system}".nvim-asahi
-    else
-      inputs.nixvim.packages."${pkgs.system}".nvim;
+  nixvim = inputs.nixvim.packages."${pkgs.system}".nvim;
 in
 {
   imports = [ ./configs.nix ];
@@ -65,6 +61,8 @@ in
   #   enable = true;
   #   pulse.enable = true;
   # };
+
+  fonts.packages = (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts));
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -213,8 +211,6 @@ in
   nixpkgs.config.allowUnfree = true;
 
   documentation.dev.enable = true;
-
-  nixpkgs.overlays = lib.optional config.isAsahiLinux inputs.zig-asahi.overlays.zig-asahi;
 
   hardware =
     {

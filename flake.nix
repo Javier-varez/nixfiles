@@ -1,26 +1,21 @@
 {
   description = "My NixOS config";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    zig-asahi = {
-      url = "github:javier-varez/zig-asahi";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
       url = "github:javier-varez/nixvim-cfg";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.zig-asahi.follows = "zig-asahi";
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-24.11";
+      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-apple-silicon = {
-      url = "github:tpwrules/nixos-apple-silicon";
+      url = "github:tpwrules/nixos-apple-silicon/release-2025-05-17";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     iamb = {
