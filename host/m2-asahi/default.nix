@@ -30,10 +30,6 @@
 
   environment.systemPackages = with pkgs; [
     inputs.self.packages.${pkgs.system}.widevine
-    (chromium.override {
-      widevine-cdm = inputs.self.packages.${pkgs.system}.widevine;
-      enableWideVine = true;
-    })
     vagrant
     virt-manager
     spice-gtk
