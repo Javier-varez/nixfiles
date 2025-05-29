@@ -205,7 +205,7 @@ rec {
       }
 
       $env.config = {
-        edit_mode: "vi"
+        edit_mode: "emacs"
 
         completions: {
           external: {
@@ -233,11 +233,6 @@ rec {
       $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/go/bin")
       $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/.cargo/bin")
     '';
-  };
-
-  programs.atuin = {
-    enable = true;
-    enableNushellIntegration = true;
   };
 
   programs.bat = {
