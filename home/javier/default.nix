@@ -115,6 +115,7 @@ rec {
     ++ (lib.optionals isLinux [
       sudo
       bluespec
+      kicad
     ])
     ++ (lib.optionals (isLinux && !isRiscv64) [
       # Packages only available in linux (except riscv64-linux)
