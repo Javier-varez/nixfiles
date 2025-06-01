@@ -181,6 +181,13 @@ in
       '';
       destination = "/etc/udev/rules.d/70-stlink.rules";
     })
+    (pkgs.writeTextFile {
+      name = "70-saleae.rules";
+      text = ''
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="21a9", ATTRS{idProduct}=="1005", MODE="660", TAG+="uaccess"
+      '';
+      destination = "/etc/udev/rules.d/70-saleae.rules";
+    })
   ];
 
   systemd.sleep.extraConfig = ''

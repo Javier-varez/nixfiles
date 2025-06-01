@@ -116,6 +116,7 @@ rec {
       sudo
       bluespec
       kicad
+      saleae-logic-2
     ])
     ++ (lib.optionals (isLinux && !isRiscv64) [
       # Packages only available in linux (except riscv64-linux)
