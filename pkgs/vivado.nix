@@ -20,7 +20,7 @@
   glib,
   freetype,
   gtk2,
-  buildFHSUserEnv,
+  buildFHSEnv,
   gcc,
   ncurses5,
   glibc,
@@ -106,7 +106,7 @@ let
   };
 
 in
-buildFHSUserEnv {
+buildFHSEnv {
   name = "vivado";
   targetPkgs = _pkgs: [
     vivadoPackage
