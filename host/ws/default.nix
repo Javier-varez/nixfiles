@@ -30,5 +30,6 @@
   environment.systemPackages = [
     inputs.self.packages.${pkgs.system}.vivado
     inputs.self.packages.${pkgs.system}.xelab
+    inputs.self.packages.${pkgs.system}.xsim
   ];
 }

@@ -140,4 +140,21 @@ in
       ];
     runScript = "xelab";
   };
+
+  xsim = buildFHSEnv {
+    name = "xsim";
+    targetPkgs = _pkgs: [
+      vivadoPackage
+    ];
+    multiPkgs =
+      pkgs: with pkgs; [
+        coreutils
+        gcc
+        ncurses5
+        zlib
+        glibc.dev
+        libxcrypt-legacy
+      ];
+    runScript = "xsim";
+  };
 }
