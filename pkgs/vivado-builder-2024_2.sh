@@ -80,12 +80,14 @@ patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/opt/
 echo "ELFs patched"
 
 wrapProgram $out/opt/Vivado/2024.2/bin/vivado --prefix LD_LIBRARY_PATH : "$libPath"
+wrapProgram $out/opt/Vivado/2024.2/bin/xelab --prefix LD_LIBRARY_PATH : "$libPath"
 wrapProgram $out/opt/Vitis_HLS/2024.2/lnx64/tools/eclipse/eclipse --prefix LD_LIBRARY_PATH : "$libPath"
 wrapProgram $out/opt/Vivado/2024.2/tps/lnx64/jre21.0.1_12/bin/java --prefix LD_LIBRARY_PATH : "$libPath"
 
 # wrapProgram on its own will not work because of the way the Vivado
 # script runs ./launch. Therefore, we need even more patches...
 sed -i -- 's|`basename "\$0"`|vivado|g' $out/opt/Vivado/2024.2/bin/.vivado-wrapped
+sed -i -- 's|`basename "\$0"`|xelab|g' $out/opt/Vivado/2024.2/bin/.xelab-wrapped
 sed -i -- 's|/bin/touch|/usr/bin/env touch|g' $out/opt/Vivado/2024.2/scripts/ISEWrap.sh
 
 # Remove all created references to $extracted, to avoid making it a runtime dependency
@@ -99,3 +101,4 @@ sed -i -- "s|$extracted|/nix/store/00000000000000000000000000000000-vivado-2024.
 # Add Vivado and xsdk to bin folder
 mkdir $out/bin
 ln -s $out/opt/Vivado/2024.2/bin/vivado $out/bin/vivado
+ln -s $out/opt/Vivado/2024.2/bin/xelab $out/bin/xelab

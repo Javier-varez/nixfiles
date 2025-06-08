@@ -106,19 +106,38 @@ let
   };
 
 in
-buildFHSEnv {
-  name = "vivado";
-  targetPkgs = _pkgs: [
-    vivadoPackage
-  ];
-  multiPkgs =
-    pkgs: with pkgs; [
-      coreutils
-      gcc
-      ncurses5
-      zlib
-      glibc.dev
-      libxcrypt-legacy
+{
+  vivado = buildFHSEnv {
+    name = "vivado";
+    targetPkgs = _pkgs: [
+      vivadoPackage
     ];
-  runScript = "vivado";
+    multiPkgs =
+      pkgs: with pkgs; [
+        coreutils
+        gcc
+        ncurses5
+        zlib
+        glibc.dev
+        libxcrypt-legacy
+      ];
+    runScript = "vivado";
+  };
+
+  xelab = buildFHSEnv {
+    name = "xelab";
+    targetPkgs = _pkgs: [
+      vivadoPackage
+    ];
+    multiPkgs =
+      pkgs: with pkgs; [
+        coreutils
+        gcc
+        ncurses5
+        zlib
+        glibc.dev
+        libxcrypt-legacy
+      ];
+    runScript = "xelab";
+  };
 }

@@ -17,7 +17,7 @@
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups = {
-    libvirtd.members = ["javier"];
+    libvirtd.members = [ "javier" ];
     vboxusers.members = [ "javier" ];
   };
 
@@ -27,5 +27,8 @@
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
-  environment.systemPackages = [ inputs.self.packages.${pkgs.system}.vivado ];
+  environment.systemPackages = [
+    inputs.self.packages.${pkgs.system}.vivado
+    inputs.self.packages.${pkgs.system}.xelab
+  ];
 }
