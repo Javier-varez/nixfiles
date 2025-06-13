@@ -39,6 +39,7 @@ let
   ghosttyConfigPath = "${ghosttyConfigBasePath}/config";
   ghosttyDarwinConfigPath = "${ghosttyConfigBasePath}/darwin";
   ghosttyLinuxConfigPath = "${ghosttyConfigBasePath}/linux";
+  jujutsuConfigPath = ".config/jj/config.toml";
 
   wallpaper = pkgs.stdenv.mkDerivation {
     pname = "wallpaper";
@@ -72,6 +73,7 @@ rec {
   home.sessionPath = [
     "$HOME/.cargo/bin"
     "$HOME/go/bin"
+    "$HOME/.claude/local"
   ] ++ (lib.optionals isDarwin [ "/opt/homebrew/bin" ]);
 
   home.packages =
@@ -100,6 +102,9 @@ rec {
       asciinema
       go
       ninja
+      nodejs_24
+      jujutsu
+      delta
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
@@ -180,6 +185,12 @@ rec {
       enable = isDarwin;
       source = ./sketchybar;
     };
+
+    # Jujutsu config
+    "${jujutsuConfigPath}" = {
+      enable = true;
+      source = ./jujutsu.toml;
+    };
   };
 
   home.stateVersion = "24.05";
@@ -233,6 +244,7 @@ rec {
       $env.VISUAL = "${editor}"
       $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/go/bin")
       $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/.cargo/bin")
+      $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/.claude/local")
     '';
   };
 
