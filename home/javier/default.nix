@@ -79,58 +79,59 @@ rec {
   home.packages =
     with pkgs;
     [
-      starship
-      vim
+      asciinema
+      bison
+      cmake
+      delta
+      fastfetch
+      fd
+      flex
+      gcc
       git
+      git-crypt
       git-lfs
       gitui
-      git-crypt
-      htop
-      home-manager
-      xclip
-      rustup
-      fastfetch
-      onefetch
-      ripgrep
-      fd
       gnumake
-      gcc
-      llvm
-      lld
-      flex
-      bison
-      asciinema
       go
+      home-manager
+      htop
+      jujutsu
+      lld
+      llvm
       ninja
       nodejs_24
-      jujutsu
-      delta
+      onefetch
+      ripgrep
+      rustup
+      starship
+      vim
+      xclip
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
-      nixfmt-rfc-style
-      nixd
-      python3
       git-repo
-      kubectl
-      k9s
       glasgow
+      k9s
+      kubectl
+      nixd
+      nixfmt-rfc-style
+      python3
       zig_0_14
     ])
     ++ (lib.optionals isLinux [
-      sudo
       bluespec
       kicad
       saleae-logic-2
+      sudo
     ])
     ++ (lib.optionals (isLinux && !isRiscv64) [
       # Packages only available in linux (except riscv64-linux)
-      telegram-desktop
-      fractal
       bitwarden-cli
       bitwarden-desktop
+      fractal
       protonvpn-cli
       protonvpn-gui
+      telegram-desktop
     ])
     ++ iambPackage
     ++ ghosttyPkg;
