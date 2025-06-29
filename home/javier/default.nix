@@ -86,7 +86,6 @@ rec {
       fastfetch
       fd
       flex
-      gcc
       git
       git-crypt
       git-lfs
