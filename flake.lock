@@ -358,11 +358,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1751733655,
-        "narHash": "sha256-TPtuQO4I7pe/Lo/k3W3MDG4ye+UNpgIqX4vT7Jqy6Xk=",
+        "lastModified": 1751827982,
+        "narHash": "sha256-+Mexwuxkg0jrttOqns/DLZAAC8VuoGermb1QmhE9CXE=",
         "owner": "javier-varez",
         "repo": "nixvim-cfg",
-        "rev": "8f7759e8e96ec8d8450603a17f4c9ed0551a2c3a",
+        "rev": "80fef56617fbad40755c0cdbc2400c9a5c316611",
         "type": "github"
       },
       "original": {
