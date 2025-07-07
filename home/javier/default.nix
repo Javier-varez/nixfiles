@@ -30,6 +30,7 @@ let
     gits = "git status";
     cat = "bat";
     k = "kubectl";
+    nvd = lib.getExe inputs.nixvim.packages."${pkgs.system}".nvim-dev;
   };
 
   iambConfigPath =
