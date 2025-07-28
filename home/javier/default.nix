@@ -9,6 +9,7 @@
 }:
 let
   isRiscv64 = pkgs.system == "riscv64-linux";
+  isX64Linux = pkgs.system == "x86_64-linux";
   inherit (pkgs.stdenv) isLinux isDarwin;
 
   hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
@@ -121,7 +122,6 @@ rec {
     ++ (lib.optionals isLinux [
       bluespec
       kicad
-      saleae-logic-2
       sudo
     ])
     ++ (lib.optionals (isLinux && !isRiscv64) [
@@ -133,6 +133,7 @@ rec {
       protonvpn-gui
       telegram-desktop
     ])
+    ++ (lib.optional isX64Linux saleae-logic-2)
     ++ iambPackage
     ++ ghosttyPkg;
 
