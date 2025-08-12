@@ -21,12 +21,22 @@
     "sd_mod"
   ];
   boot.initrd.kernelModules = [
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
     "dm-snapshot"
     "cryptd"
   ];
+  boot.kernelParams = [
+    "amd_iommu=on" # Needed for vfio
+    "vfio-pci.ids=8086:1539" # Intel i211 network card in passthrough mode
+  ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "riscv64-linux"
+  ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXOS_ROOT";
