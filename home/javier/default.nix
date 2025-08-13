@@ -123,6 +123,7 @@ rec {
       bluespec
       kicad
       sudo
+      pciutils
     ])
     ++ (lib.optionals (isLinux && !isRiscv64) [
       # Packages only available in linux (except riscv64-linux)
