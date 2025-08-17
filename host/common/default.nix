@@ -52,6 +52,7 @@ in
     ];
     packages = with pkgs; [ firefox ];
     shell = pkgs.nushell;
+    initialHashedPassword = "$6$GdR/WV.SP7Eqhljw$rrH5ptrinOOYNLBf13EUIsqEXqcW25.ryZ/7CvqcbMBeeBn8d1jmQWYQD.LoT3kRY.DGLyfI8mw5k1ne/ohG//";
   };
 
   # Enable sound.
