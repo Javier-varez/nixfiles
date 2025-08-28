@@ -20,6 +20,21 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  # Shared files with the VM
+  fileSystems."/mnt/share" = {
+    device = "share";
+    fsType = "9p";
+    options = [
+      "trans=virtio"
+      "version=9p2000.L,rw"
+      "_netdev"
+      "nofail"
+      "umask=0000"
+    ];
+  };
+
+  home-manager.backupFileExtension = ".bak";
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
