@@ -76,7 +76,8 @@ rec {
     "$HOME/.cargo/bin"
     "$HOME/go/bin"
     "$HOME/.claude/local"
-  ] ++ (lib.optionals isDarwin [ "/opt/homebrew/bin" ]);
+  ]
+  ++ (lib.optionals isDarwin [ "/opt/homebrew/bin" ]);
 
   home.packages =
     with pkgs;
@@ -294,7 +295,7 @@ rec {
 
   };
 
-  dconf.settings = {
+  dconf.settings = lib.mkIf hasWindowManager {
     "org/gnome/desktop/peripherals/keyboard" = with lib.hm.gvariant; {
       repeat-interval = mkUint32 15;
       delay = mkUint32 200;

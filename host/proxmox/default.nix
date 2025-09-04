@@ -30,5 +30,10 @@
     pkgs.jellyfin-ffmpeg
   ];
 
+  hasWindowManager = true;
+
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.displayManager.gdm.enable = lib.mkForce false;
+
   system.stateVersion = lib.mkForce "24.11";
 }
