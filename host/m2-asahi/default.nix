@@ -26,6 +26,7 @@
 
   users.users.javier.extraGroups = [
     "libvirtd"
+    "docker"
   ];
 
   environment.systemPackages = with pkgs; [
@@ -42,6 +43,10 @@
       runAsRoot = true;
       vhostUserPackages = with pkgs; [ virtiofsd ];
     };
+  };
+
+  virtualisation.docker = {
+    enable = true;
   };
 
   # make sure sleep is not disabled
