@@ -23,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     ghostty = {
-      url = "github:ghostty-org/ghostty";
+      url = "github:ghostty-org/ghostty/v1.2.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     u-boot-uconsole = {
