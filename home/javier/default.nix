@@ -101,6 +101,7 @@ rec {
       jujutsu
       lld
       llvm
+      clang
       ninja
       nodejs_24
       onefetch
@@ -121,6 +122,7 @@ rec {
       nixfmt-rfc-style
       python3
       zig_0_14
+      mold
     ])
     ++ (lib.optionals isLinux [
       bluespec
