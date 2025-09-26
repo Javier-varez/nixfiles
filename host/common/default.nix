@@ -49,6 +49,7 @@ in
       "wheel"
       "plugdev"
       "dialout"
+      "docker"
     ];
     packages = with pkgs; [ firefox ];
     shell = pkgs.nushell;

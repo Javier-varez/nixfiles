@@ -16,10 +16,13 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.virtualbox.host.enable = true;
+  virtualisation.docker.enable = true;
   users.extraGroups = {
     libvirtd.members = [ "javier" ];
     vboxusers.members = [ "javier" ];
   };
+
+  virtualisation.docker.storageDriver = "btrfs";
 
   services.openssh.enable = true;
   services.blueman.enable = true;
