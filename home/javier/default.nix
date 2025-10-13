@@ -108,6 +108,7 @@ rec {
       starship
       vim
       xclip
+      jq
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
