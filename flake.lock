@@ -435,6 +435,26 @@
         "type": "github"
       }
     },
+    "pd-mirror": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760370456,
+        "narHash": "sha256-hFa1W5oOEJdEfpkKVYPRVVejweUgzGiwAxxrmfTVtJs=",
+        "owner": "javier-varez",
+        "repo": "pd-mirror",
+        "rev": "74b1be1251c52fef06317a470c49d247e3a339f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "javier-varez",
+        "repo": "pd-mirror",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "ghostty": "ghostty",
@@ -444,6 +464,7 @@
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
+        "pd-mirror": "pd-mirror",
         "u-boot-uconsole": "u-boot-uconsole"
       }
     },

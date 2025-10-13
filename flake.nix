@@ -30,6 +30,10 @@
       url = "github:javier-varez/u-boot/d1-wip";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pd-mirror = {
+      url = "github:javier-varez/pd-mirror";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs@{

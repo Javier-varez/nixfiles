@@ -20,6 +20,7 @@ let
 
   iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.system}".default;
   ghosttyPkg = lib.optional hasGhostty (inputs.ghostty.packages.${pkgs.system}.default);
+  pd-mirror = inputs.pd-mirror.packages.x86_64-linux.default;
 
   editor = if hasNeovim then "nvim" else "vim";
 
@@ -135,6 +136,7 @@ rec {
       protonvpn-cli
       protonvpn-gui
       telegram-desktop
+      pd-mirror
     ])
     ++ (lib.optional isX64Linux saleae-logic-2)
     ++ iambPackage
