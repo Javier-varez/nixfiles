@@ -59,6 +59,7 @@
         m2-asahi = "aarch64-linux";
         vm = "aarch64-linux";
         proxmox = "x86_64-linux";
+        thinkpad = "x86_64-linux";
         uconsole = {
           system = "aarch64-linux";
           disableHome = false;
