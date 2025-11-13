@@ -1,10 +1,15 @@
-{ config, lib, pkgs, ... }:
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./../common
-    ];
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./../common
+  ];
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = lib.mkForce false;
@@ -14,11 +19,28 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
     mirroredBoots = [
-      { devices = ["nodev"]; path = "/boot"; }
+      {
+        devices = [ "nodev" ];
+        path = "/boot";
+      }
     ];
   };
 
   networking.hostName = "thinkpad"; # Define your hostname.
   networking.hostId = "3c8a8180";
-}
 
+  programs.virt-manager.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups = {
+    libvirtd.members = [ "javier" ];
+    vboxusers.members = [ "javier" ];
+  };
+
+  environment.systemPackages = [
+    inputs.self.packages.${pkgs.system}.vivado
+    inputs.self.packages.${pkgs.system}.xelab
+    inputs.self.packages.${pkgs.system}.xsim
+  ];
+}
