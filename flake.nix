@@ -34,6 +34,7 @@
       url = "github:javier-varez/pd-mirror";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ashell.url = "github:MalpenZibo/ashell";
   };
   outputs =
     inputs@{

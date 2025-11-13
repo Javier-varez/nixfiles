@@ -43,4 +43,6 @@
     inputs.self.packages.${pkgs.system}.xelab
     inputs.self.packages.${pkgs.system}.xsim
   ];
+
+  services.fprintd.enable = true;
 }

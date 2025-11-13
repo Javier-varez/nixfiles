@@ -27,13 +27,13 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable the X11 windowing system.
-  services.xserver.enable = config.hasWindowManager;
+  # services.xserver.enable = config.hasWindowManager;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = config.hasWindowManager;
-  services.xserver.desktopManager.gnome = {
-    enable = config.hasWindowManager;
-  };
+  # services.xserver.displayManager.gdm.enable = config.hasWindowManager;
+  # services.xserver.desktopManager.gnome = {
+  #   enable = config.hasWindowManager;
+  # };
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -111,27 +111,26 @@ in
         DisableFirefoxStudies = true;
         DontCheckDefaultBrowser = true;
 
-        ExtensionSettings =
-          {
-            "*".installation_mode = "blocked";
-            # Vimium
-            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
-            };
-            # Dark reader
-            "addon@darkreader.org" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
-            };
-          }
-          // lib.optionalAttrs config.isAsahiLinux {
-            # User-Agent Switcher and Manager
-            "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
-            };
+        ExtensionSettings = {
+          "*".installation_mode = "blocked";
+          # Vimium
+          "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
           };
+          # Dark reader
+          "addon@darkreader.org" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
+          };
+        }
+        // lib.optionalAttrs config.isAsahiLinux {
+          # User-Agent Switcher and Manager
+          "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
+          };
+        };
 
         Preferences = {
           "extensions.pocket.enabled" = {
@@ -156,7 +155,25 @@ in
       enable = true;
       enableFishIntegration = true;
     };
+
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+      xwayland.enable = false;
+    };
   };
+
+  services.hypridle = {
+    enable = true;
+  };
+
+  home-manager.backupFileExtension = "hm-backup";
+  # services.displayManager.ly.enable = config.hasWindowManager;
+  services.displayManager.sddm = {
+    enable = config.hasWindowManager;
+    wayland.enable = config.hasWindowManager;
+  };
+  services.upower.enable = true;
 
   services.udev.packages = [
     (pkgs.writeTextFile {
@@ -220,18 +237,17 @@ in
 
   documentation.dev.enable = true;
 
-  hardware =
-    {
-      # Enables udev rules for glasgow interface explorer
-      glasgow.enable = true;
-    }
-    // (lib.optionalAttrs config.isAsahiLinux {
-      asahi = {
-        enable = true;
-        useExperimentalGPUDriver = true;
-        # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
-      };
-    });
+  hardware = {
+    # Enables udev rules for glasgow interface explorer
+    glasgow.enable = true;
+  }
+  // (lib.optionalAttrs config.isAsahiLinux {
+    asahi = {
+      enable = true;
+      useExperimentalGPUDriver = true;
+      # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
+    };
+  });
 
   programs.gnupg.agent = {
     enable = true;

@@ -65,6 +65,10 @@ let
   };
 in
 rec {
+  imports = [
+    ./hyprland
+  ];
+
   home.username = "javier";
   home.homeDirectory = if isDarwin then "/Users/javier" else "/home/javier";
 
@@ -110,6 +114,7 @@ rec {
       vim
       xclip
       jq
+      yazi
     ]
     ++ (lib.optionals (!isRiscv64) [
       # need to make the packages work on riscv64-linux
