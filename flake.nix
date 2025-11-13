@@ -26,6 +26,7 @@
     pd-mirror = {
       url = "github:javier-varez/pd-mirror";
     };
+    ashell.url = "github:MalpenZibo/ashell";
   };
   outputs =
     inputs@{

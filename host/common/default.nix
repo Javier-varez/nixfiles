@@ -37,7 +37,7 @@ in
   services.resolved.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver.enable = config.hasWindowManager;
+  # services.xserver.enable = config.hasWindowManager;
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = config.hasWindowManager;
@@ -168,7 +168,25 @@ in
       enable = true;
       enableFishIntegration = true;
     };
+
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+      xwayland.enable = false;
+    };
   };
+
+  services.hypridle = {
+    enable = true;
+  };
+
+  home-manager.backupFileExtension = "hm-backup";
+  # services.displayManager.ly.enable = config.hasWindowManager;
+  services.displayManager.sddm = {
+    enable = config.hasWindowManager;
+    wayland.enable = config.hasWindowManager;
+  };
+  services.upower.enable = true;
 
   services.udev.packages = [
     (pkgs.writeTextFile {

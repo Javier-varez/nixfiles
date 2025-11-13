@@ -63,6 +63,10 @@ let
   };
 in
 rec {
+  imports = [
+    ./hyprland
+  ];
+
   home.username = "javier";
   home.homeDirectory = if isDarwin then "/Users/javier" else "/home/javier";
 
@@ -118,6 +122,7 @@ rec {
       python3
       zig
       mold
+      yazi
     ]
     ++ (lib.optionals isLinux [
       bluespec

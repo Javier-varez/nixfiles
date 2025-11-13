@@ -43,4 +43,6 @@
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.xelab
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.xsim
   ];
+
+  services.fprintd.enable = true;
 }
