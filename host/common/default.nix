@@ -9,7 +9,11 @@ let
   nixvim = inputs.nixvim.packages."${pkgs.system}".nvim;
 in
 {
-  imports = [ ./configs.nix ];
+  imports = [
+    ./configs.nix
+    ./hyprland.nix
+    ./gnome.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -27,13 +31,8 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = config.hasWindowManager;
-
-  # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = config.hasWindowManager;
-  # services.xserver.desktopManager.gnome = {
-  #   enable = config.hasWindowManager;
-  # };
+  services.xserver.enable = config.hasWindowManager;
+  services.xserver.displayManager.gdm.enable = config.hasWindowManager;
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -67,23 +66,16 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    with pkgs;
-    [
-      sudo
-      man-pages
-      man-pages-posix
-      file
-      git
-      fish
-      usbutils
-      inputs.self.packages.${pkgs.system}.sunxi-tools
-      nixvim
-    ]
-    ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
-
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany # gnome browser
+  environment.systemPackages = with pkgs; [
+    sudo
+    man-pages
+    man-pages-posix
+    file
+    git
+    fish
+    usbutils
+    inputs.self.packages.${pkgs.system}.sunxi-tools
+    nixvim
   ];
 
   programs = {
@@ -155,25 +147,9 @@ in
       enable = true;
       enableFishIntegration = true;
     };
-
-    hyprland = {
-      enable = true;
-      withUWSM = true;
-      xwayland.enable = true;
-    };
-  };
-
-  services.hypridle = {
-    enable = true;
   };
 
   home-manager.backupFileExtension = "hm-backup";
-  # services.displayManager.ly.enable = config.hasWindowManager;
-  services.displayManager.sddm = {
-    enable = config.hasWindowManager;
-    wayland.enable = config.hasWindowManager;
-  };
-  services.upower.enable = true;
 
   services.udev.packages = [
     (pkgs.writeTextFile {
