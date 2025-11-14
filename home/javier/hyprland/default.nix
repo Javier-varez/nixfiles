@@ -19,6 +19,17 @@ let
       fi
     '';
   };
+
+  wallpaper = pkgs.stdenv.mkDerivation {
+    pname = "wallpaper-hyprland";
+    version = "1.0.0";
+    src = ./wallpaper.png;
+    phases = [ "installPhase" ];
+    installPhase = ''
+      install -D $src $out
+    '';
+  };
+
 in
 {
   imports = [
@@ -30,6 +41,10 @@ in
     pkgs.dunst
     pkgs.hyprpolkitagent
     pkgs.brightnessctl
+    pkgs.hyprpaper
+
+    # Common tools
+    # pkgs.feh
   ];
 
   programs.hyprlock.enable = true;
@@ -38,6 +53,13 @@ in
     ".config/hypr/hypridle.conf" = {
       enable = true;
       source = ./hypridle.conf;
+    };
+    ".config/hypr/hyprpaper.conf" = {
+      enable = true;
+      text = ''
+        preload = ${wallpaper}
+        wallpaper = , ${wallpaper}
+      '';
     };
   };
 
@@ -103,8 +125,9 @@ in
     extraConfig = ''
       # top-bar
       exec-once = ${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell
-      exec-once = dunst
-      exec-once = systemctl --user start hyprpolkitagent
+      exec-once = systemctl --user enable --now dunst.service
+      exec-once = systemctl --user enable --now hyprpolkitagent.service
+      exec-once = systemctl --user enable --now hyprpaper.service
     '';
 
     # It is installed as a nixos module already
