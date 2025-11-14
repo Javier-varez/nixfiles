@@ -15,5 +15,15 @@
       type = lib.types.bool;
       default = true;
     };
+
+    desktopConfigurations = lib.mkOption {
+      type = lib.types.listOf (
+        lib.types.enum [
+          "hyprland"
+          "gnome"
+        ]
+      );
+      default = ["gnome" "hyprland"];
+    };
   };
 }

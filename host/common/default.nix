@@ -9,7 +9,11 @@ let
   nixvim = inputs.nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim;
 in
 {
-  imports = [ ./configs.nix ];
+  imports = [
+    ./configs.nix
+    ./hyprland.nix
+    ./gnome.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -37,7 +41,7 @@ in
   services.resolved.enable = true;
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = config.hasWindowManager;
+   services.xserver.enable = config.hasWindowManager;
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = config.hasWindowManager;
@@ -78,6 +82,7 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+<<<<<<< HEAD
   environment.systemPackages =
     with pkgs;
     [
@@ -97,6 +102,18 @@ in
 
   environment.gnome.excludePackages = with pkgs; [
     epiphany # gnome browser
+=======
+  environment.systemPackages = with pkgs; [
+    sudo
+    man-pages
+    man-pages-posix
+    file
+    git
+    fish
+    usbutils
+    inputs.self.packages.${pkgs.system}.sunxi-tools
+    nixvim
+>>>>>>> f3fbef0 (Make gnome and hyprland configurable)
   ];
 
   programs = {
@@ -168,25 +185,9 @@ in
       enable = true;
       enableFishIntegration = true;
     };
-
-    hyprland = {
-      enable = true;
-      withUWSM = true;
-      xwayland.enable = true;
-    };
-  };
-
-  services.hypridle = {
-    enable = true;
   };
 
   home-manager.backupFileExtension = "hm-backup";
-  # services.displayManager.ly.enable = config.hasWindowManager;
-  services.displayManager.sddm = {
-    enable = config.hasWindowManager;
-    wayland.enable = config.hasWindowManager;
-  };
-  services.upower.enable = true;
 
   services.udev.packages = [
     (pkgs.writeTextFile {
