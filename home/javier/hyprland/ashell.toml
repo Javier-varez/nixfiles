@@ -1,0 +1,23 @@
+[appearance]
+
+success_color = "#a6e3a1"
+text_color = "#cdd6f4"
+
+workspace_colors = [ "#772289", "#b4befe", "#cba6f7" ]
+
+[appearance.primary_color]
+base = "#772289"
+text = "#1e1e2e"
+
+[appearance.danger_color]
+base = "#f38ba8"
+weak = "#f9e2af"
+
+[appearance.background_color]
+base = "#1e0f1d"
+weak = "#1e0f1d"
+strong = "#54295C"
+
+[appearance.secondary_color]
+base = "#11111b"
+strong = "#1b1b25"

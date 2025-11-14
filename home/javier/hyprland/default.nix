@@ -61,6 +61,10 @@ in
         wallpaper = , ${wallpaper}
       '';
     };
+    ".config/ashell/config.toml" = {
+      enable = true;
+      source = ./ashell.toml;
+    };
   };
 
   wayland.windowManager.hyprland = {
