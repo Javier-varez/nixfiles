@@ -42,6 +42,7 @@ in
     pkgs.hyprpolkitagent
     pkgs.brightnessctl
     pkgs.hyprpaper
+    pkgs.hyprshot
 
     # Common tools
     # pkgs.feh
@@ -97,6 +98,10 @@ in
         "$mod, l, movefocus, r"
         "$mod, k, movefocus, u"
         "$mod, j, movefocus, d"
+
+        # Screenshot a window
+        "$mod, PRINT, exec, hyprshot -m window"
+        ", PRINT, exec, hyprshot -m output"
       ]
       ++ (
         # workspaces
