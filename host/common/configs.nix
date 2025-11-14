@@ -10,5 +10,10 @@
       type = lib.types.bool;
       default = false;
     };
+
+    allowSuspend = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+    };
   };
 }
