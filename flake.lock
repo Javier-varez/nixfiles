@@ -429,6 +429,7 @@
       },
       "original": {
         "owner": "javier-varez",
+        "ref": "cyberdream",
         "repo": "nixvim-cfg",
         "type": "github"
       }
