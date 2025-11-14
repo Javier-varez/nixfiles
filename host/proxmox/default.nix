@@ -31,6 +31,7 @@
   ];
 
   hasWindowManager = true;
+  allowSuspend = false;
 
   services.xserver.displayManager.startx.enable = true;
   services.xserver.displayManager.gdm.enable = lib.mkForce false;
