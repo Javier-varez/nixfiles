@@ -102,6 +102,9 @@ in
         # Screenshot a window
         "$mod, PRINT, exec, hyprshot -m window"
         ", PRINT, exec, hyprshot -m output"
+
+        # Switch workspaces
+        "$mod, TAB, workspace, previous"
       ]
       ++ (
         # workspaces
