@@ -138,6 +138,9 @@ in
         use_nearest_neighbor = false;
         force_zero_scaling = true;
       };
+      animation = [
+        "global, 0"
+      ];
     };
 
     extraConfig = ''
