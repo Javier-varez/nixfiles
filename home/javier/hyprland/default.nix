@@ -138,8 +138,15 @@ in
         use_nearest_neighbor = false;
         force_zero_scaling = true;
       };
+
       animation = [
         "global, 0"
+      ];
+
+      monitor = [
+        "eDP-1, 1920x1200, 0x0, 1"
+        "HDMI-A-1, 1920x1080, 0x-1080, 1"
+        "DP-3, 2560x1440, -2560x-1080, 1"
       ];
     };
 
