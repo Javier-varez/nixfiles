@@ -144,7 +144,7 @@ in
       ];
 
       monitor = [
-        "eDP-1, 1920x1200, 0x0, 1"
+        "eDP-1, 1920x1200, 0x0, 1.5"
         "desc:Dell Inc. DELL U2312HM KF87Y3AECZGS, 1920x1080, 0x-1080, 1"
         "desc:Dell Inc. DELL U2719D GQD9623, 2560x1440, -2560x-1080, 1"
       ];
