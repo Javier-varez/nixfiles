@@ -73,6 +73,7 @@ in
     systemd.enable = false; # uwsm conflicts with this
     settings = {
       "$mod" = "SUPER";
+      "$altMod" = "CTRL";
       bind = [
         "$mod, T, exec, ghostty"
         "$mod, R, exec, ${lib.getExe toggleWofi}"
@@ -86,18 +87,20 @@ in
         "$mod, J, togglesplit," # dwindle
         "$mod, F, fullscreen,"
 
-        ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"
-        ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1.0"
-        ", xf86audiomute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", xf86audiomicmute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-
-        ", xf86monbrightnessup, exec, brightnessctl set 5%+"
-        ", xf86monbrightnessdown, exec, brightnessctl set 5%-"
-
         "$mod, h, movefocus, l"
         "$mod, l, movefocus, r"
         "$mod, k, movefocus, u"
         "$mod, j, movefocus, d"
+
+        "$mod SHIFT, l, resizeactive, 10 0"
+        "$mod SHIFT, h, resizeactive, -10 0"
+        "$mod SHIFT, k, resizeactive, 0 -10"
+        "$mod SHIFT, j, resizeactive, 0 10"
+
+        "$mod SHIFT CTRL, l, resizeactive, 10 0"
+        "$mod SHIFT CTRL, h, resizeactive, -10 0"
+        "$mod SHIFT CTRL, k, resizeactive, 0 -10"
+        "$mod SHIFT CTRL, j, resizeactive, 0 10"
 
         # Screenshot a window
         "$mod, PRINT, exec, hyprshot -m window"
@@ -122,6 +125,24 @@ in
           ) 9
         )
       );
+
+      # <e> = repeat when held, <l> = works in lock screen
+      bindel = [
+        ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"
+        ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1.0"
+        ", xf86audiomute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", xf86audiomicmute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+        ", xf86monbrightnessup, exec, brightnessctl set 5%+"
+        ", xf86monbrightnessdown, exec, brightnessctl set 5%-"
+      ];
+
+      bindm = [
+        "$altMod, mouse:272, movewindow"
+        "$altMod, mouse:273, resizewindow"
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
 
       input = {
         kb_layout = "us";
