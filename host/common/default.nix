@@ -82,7 +82,6 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-<<<<<<< HEAD
   environment.systemPackages =
     with pkgs;
     [
@@ -102,18 +101,6 @@ in
 
   environment.gnome.excludePackages = with pkgs; [
     epiphany # gnome browser
-=======
-  environment.systemPackages = with pkgs; [
-    sudo
-    man-pages
-    man-pages-posix
-    file
-    git
-    fish
-    usbutils
-    inputs.self.packages.${pkgs.system}.sunxi-tools
-    nixvim
->>>>>>> f3fbef0 (Make gnome and hyprland configurable)
   ];
 
   programs = {
