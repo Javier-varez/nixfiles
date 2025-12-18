@@ -76,6 +76,7 @@ in
     usbutils
     inputs.self.packages.${pkgs.system}.sunxi-tools
     nixvim
+    bpftrace
   ];
 
   programs = {
