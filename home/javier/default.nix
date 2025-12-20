@@ -121,7 +121,7 @@ rec {
       nixd
       nixfmt-rfc-style
       python3
-      zig_0_14
+      zig
       mold
     ])
     ++ (lib.optionals isLinux [
