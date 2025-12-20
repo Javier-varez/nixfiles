@@ -39,8 +39,8 @@
   };
 
   environment.systemPackages = [
-    inputs.self.packages.${pkgs.system}.vivado
-    inputs.self.packages.${pkgs.system}.xelab
-    inputs.self.packages.${pkgs.system}.xsim
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.vivado
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.xelab
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.xsim
   ];
 }

@@ -8,8 +8,8 @@
   environment.systemPackages = [
     pkgs.vim
     pkgs.iterm2
-    inputs.self.packages.${pkgs.system}.ltapiserv-rs
-    inputs.nixvim.packages."${pkgs.system}".nvim
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ltapiserv-rs
+    inputs.nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
   ];
 
   nix.enable = true;
@@ -33,7 +33,7 @@
   };
 
   launchd.agents.ltapiserv-rs = {
-    command = "${inputs.self.packages.${pkgs.system}.ltapiserv-rs}/bin/ltapiserv-rs";
+    command = "${inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ltapiserv-rs}/bin/ltapiserv-rs";
     serviceConfig = {
       RunAtLoad = true;
       KeepAlive = true;

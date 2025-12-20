@@ -23,7 +23,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    inputs.self.packages.${pkgs.system}.widevine
+    inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.widevine
     vagrant
     virt-manager
     spice-gtk

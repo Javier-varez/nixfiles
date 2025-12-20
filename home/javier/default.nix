@@ -8,21 +8,19 @@
   ...
 }:
 let
-  isRiscv64 = pkgs.system == "riscv64-linux";
-  isX64Linux = pkgs.system == "x86_64-linux";
+  isX64Linux = pkgs.stdenv.isx86_64 && pkgs.stdenv.isLinux;
   inherit (pkgs.stdenv) isLinux isDarwin;
 
-  hasIamb = builtins.hasAttr pkgs.system inputs.iamb.packages;
+  hasIamb = builtins.hasAttr pkgs.stdenv.hostPlatform.system inputs.iamb.packages;
   hasGhostty =
-    hasWindowManager && !isDarwin && (builtins.hasAttr pkgs.system inputs.ghostty.packages);
+    hasWindowManager && !isDarwin && (builtins.hasAttr pkgs.stdenv.hostPlatform.system inputs.ghostty.packages);
   hasFirefox = hasWindowManager;
-  hasNeovim = !isRiscv64;
 
-  iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.system}".default;
-  ghosttyPkg = lib.optional hasGhostty (inputs.ghostty.packages.${pkgs.system}.default);
+  iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.stdenv.hostPlatform.system}".default;
+  ghosttyPkg = lib.optional hasGhostty (inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default);
   pd-mirror = inputs.pd-mirror.packages.x86_64-linux.default;
 
-  editor = if hasNeovim then "nvim" else "vim";
+  editor = "nvim";
 
   shellAliases = {
     l = "ls";
@@ -32,7 +30,7 @@ let
     gits = "git status";
     cat = "bat";
     k = "kubectl";
-    nvd = lib.getExe inputs.nixvim.packages."${pkgs.system}".nvim-dev;
+    nvd = lib.getExe inputs.nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim-dev;
   };
 
   iambConfigPath =
@@ -111,9 +109,6 @@ rec {
       vim
       xclip
       jq
-    ]
-    ++ (lib.optionals (!isRiscv64) [
-      # need to make the packages work on riscv64-linux
       git-repo
       glasgow
       k9s
@@ -123,15 +118,12 @@ rec {
       python3
       zig
       mold
-    ])
+    ]
     ++ (lib.optionals isLinux [
       bluespec
       kicad
       sudo
       pciutils
-    ])
-    ++ (lib.optionals (isLinux && !isRiscv64) [
-      # Packages only available in linux (except riscv64-linux)
       bitwarden-cli
       bitwarden-desktop
       fractal
@@ -163,7 +155,7 @@ rec {
     ".mozilla/firefox/${config.programs.firefox.profiles.javier.path}/gmp-widevinecdm" = {
       enable = hasFirefox && isAsahiLinux;
       source = pkgs.runCommandLocal "firefox-widevinecdm" { } ''
-        ln -s ${inputs.self.packages.${pkgs.system}.widevine}/gmp-widevinecdm $out
+        ln -s ${inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.widevine}/gmp-widevinecdm $out
       '';
     };
 

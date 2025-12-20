@@ -6,7 +6,7 @@
   ...
 }:
 let
-  nixvim = inputs.nixvim.packages."${pkgs.system}".nvim;
+  nixvim = inputs.nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim;
 in
 {
   imports = [ ./configs.nix ];
@@ -78,7 +78,7 @@ in
       git
       fish
       usbutils
-      inputs.self.packages.${pkgs.system}.sunxi-tools
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.sunxi-tools
       nixvim
       bpftrace
     ]
