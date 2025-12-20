@@ -16,13 +16,6 @@
   hardware.asahi.peripheralFirmwareDirectory = ../../firmware/m2-asahi;
 
   networking.hostName = "m2-asahi"; # Define your hostname.
-  networking.networkmanager = {
-    enableStrongSwan = true;
-  };
-
-  services.strongswan = {
-    enable = true;
-  };
 
   users.users.javier.extraGroups = [
     "libvirtd"

@@ -30,8 +30,8 @@ in
   services.xserver.enable = config.hasWindowManager;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = config.hasWindowManager;
-  services.xserver.desktopManager.gnome = {
+  services.displayManager.gdm.enable = config.hasWindowManager;
+  services.desktopManager.gnome = {
     enable = config.hasWindowManager;
   };
 
@@ -80,6 +80,7 @@ in
       usbutils
       inputs.self.packages.${pkgs.system}.sunxi-tools
       nixvim
+      bpftrace
     ]
     ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
 
@@ -229,7 +230,6 @@ in
     // (lib.optionalAttrs config.isAsahiLinux {
       asahi = {
         enable = true;
-        useExperimentalGPUDriver = true;
         # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
       };
     });

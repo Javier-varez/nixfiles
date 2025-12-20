@@ -135,7 +135,6 @@ rec {
       bitwarden-cli
       bitwarden-desktop
       fractal
-      protonvpn-cli
       protonvpn-gui
       telegram-desktop
       pd-mirror
@@ -265,8 +264,10 @@ rec {
 
   programs.git = {
     enable = true;
-    userName = "Javier Alvarez";
-    userEmail = "javier.alvarez@allthingsembedded.net";
+    settings = {
+      user.name = "Javier Alvarez";
+      user.email = "javier.alvarez@allthingsembedded.net";
+    };
   };
 
   programs.starship = {

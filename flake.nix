@@ -1,38 +1,30 @@
 {
   description = "My NixOS config";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
       url = "github:javier-varez/nixvim-cfg";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-apple-silicon = {
-      url = "github:nix-community/nixos-apple-silicon/release-25.05";
+      url = "github:nix-community/nixos-apple-silicon/release-2025-11-18";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     iamb = {
       url = "github:ulyssa/iamb/latest";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     ghostty = {
       url = "github:ghostty-org/ghostty/v1.2.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    u-boot-uconsole = {
-      url = "github:javier-varez/u-boot/d1-wip";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pd-mirror = {
       url = "github:javier-varez/pd-mirror";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs =
@@ -60,10 +52,6 @@
         vm = "aarch64-linux";
         proxmox = "x86_64-linux";
         thinkpad = "x86_64-linux";
-        uconsole = {
-          system = "aarch64-linux";
-          disableHome = false;
-        };
       };
 
       darwinSystems = {
@@ -86,7 +74,8 @@
           modules = [
             (./host + "/${name}")
 
-          ] ++ lib.optional enableHome ./home/nixos.nix;
+          ]
+          ++ lib.optional enableHome ./home/nixos.nix;
         };
 
       generateDarwinSystem =
