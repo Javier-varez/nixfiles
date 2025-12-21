@@ -81,6 +81,7 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.sunxi-tools
       nixvim
       bpftrace
+      networkmanager-openvpn
     ]
     ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
 
