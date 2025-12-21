@@ -15,7 +15,14 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = !config.isAsahiLinux;
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    plugins = with pkgs; [
+      networkmanager-openvpn
+      networkmanager-strongswan
+      networkmanager-l2tp
+    ];
+  };
   networking.wireless.iwd = {
     enable = config.isAsahiLinux;
     settings.General.EnableNetworkConfiguration = true;
@@ -81,7 +88,7 @@ in
       inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.sunxi-tools
       nixvim
       bpftrace
-      networkmanager-openvpn
+      openvpn
     ]
     ++ (lib.optional config.hasWindowManager gnomeExtensions.pop-shell);
 
@@ -114,27 +121,26 @@ in
         DisableFirefoxStudies = true;
         DontCheckDefaultBrowser = true;
 
-        ExtensionSettings =
-          {
-            "*".installation_mode = "blocked";
-            # Vimium
-            "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
-            };
-            # Dark reader
-            "addon@darkreader.org" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
-            };
-          }
-          // lib.optionalAttrs config.isAsahiLinux {
-            # User-Agent Switcher and Manager
-            "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
-              installation_mode = "force_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
-            };
+        ExtensionSettings = {
+          "*".installation_mode = "blocked";
+          # Vimium
+          "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Bd7742d87-e61d-4b78-b8a1-b469842139fa%7D/latest.xpi";
           };
+          # Dark reader
+          "addon@darkreader.org" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/addon@darkreader.org/latest.xpi";
+          };
+        }
+        // lib.optionalAttrs config.isAsahiLinux {
+          # User-Agent Switcher and Manager
+          "{a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7}" = {
+            installation_mode = "force_installed";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/%7Ba6c4a591-f1b2-4f03-b3ff-767e5bedf4e7%7D/latest.xpi";
+          };
+        };
 
         Preferences = {
           "extensions.pocket.enabled" = {
@@ -223,17 +229,16 @@ in
 
   documentation.dev.enable = true;
 
-  hardware =
-    {
-      # Enables udev rules for glasgow interface explorer
-      glasgow.enable = true;
-    }
-    // (lib.optionalAttrs config.isAsahiLinux {
-      asahi = {
-        enable = true;
-        # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
-      };
-    });
+  hardware = {
+    # Enables udev rules for glasgow interface explorer
+    glasgow.enable = true;
+  }
+  // (lib.optionalAttrs config.isAsahiLinux {
+    asahi = {
+      enable = true;
+      # Set hardware.asahi.peripheralFirmwareDirectory in your custom config
+    };
+  });
 
   programs.gnupg.agent = {
     enable = true;
