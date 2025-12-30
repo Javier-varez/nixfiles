@@ -255,6 +255,14 @@ in
     enableSSHSupport = true;
   };
 
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      libGL
+      xorg.libxcb
+    ];
+  };
+
   system.configurationRevision = lib.mkIf (inputs.self ? rev) inputs.self.rev;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
