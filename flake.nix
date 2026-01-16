@@ -15,7 +15,6 @@
     };
     nixos-apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon/release-2025-11-18";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     iamb = {
       url = "github:ulyssa/iamb/latest";
@@ -105,4 +104,13 @@
       inherit nixosConfigurations;
       inherit darwinConfigurations;
     };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://nixos-apple-silicon.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="
+    ];
+  };
 }
