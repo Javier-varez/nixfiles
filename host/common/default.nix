@@ -33,6 +33,9 @@ in
 
   i18n.defaultLocale = "en_US.UTF-8";
 
+  # Make it possible to resolve multicast dns
+  services.resolved.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = config.hasWindowManager;
 
