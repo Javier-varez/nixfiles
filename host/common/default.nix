@@ -185,6 +185,8 @@ in
     })
   ];
 
+  services.resolved.enable = true;
+
   systemd.sleep.extraConfig = lib.mkIf (!config.allowSuspend) ''
     AllowSuspend=no
     AllowHibernation=no

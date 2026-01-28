@@ -25,6 +25,12 @@
       }
     ];
   };
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "armv6l-linux"
+    "armv7l-linux"
+    "riscv64-linux"
+  ];
 
   networking.hostName = "thinkpad"; # Define your hostname.
   networking.hostId = "3c8a8180";
