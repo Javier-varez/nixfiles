@@ -173,7 +173,7 @@ in
 
     extraConfig = ''
       # top-bar
-      exec-once = ${inputs.ashell.defaultPackage.${pkgs.system}}/bin/ashell
+      exec-once = ${inputs.ashell.defaultPackage.${pkgs.stdenv.hostPlatform.system}}/bin/ashell
       exec-once = systemctl --user enable --now dunst.service
       exec-once = systemctl --user enable --now hyprpolkitagent.service
       exec-once = systemctl --user enable --now hyprpaper.service
