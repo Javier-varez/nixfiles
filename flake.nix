@@ -7,7 +7,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:javier-varez/nixvim-cfg/cyberdream";
+      url = "github:javier-varez/nixvim-cfg";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
       url = "github:LnL7/nix-darwin/nix-darwin-25.05";

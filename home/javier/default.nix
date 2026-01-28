@@ -118,7 +118,7 @@ rec {
       k9s
       kubectl
       nixd
-      nixfmt-rfc-style
+      nixfmt
       python3
       zig
       mold

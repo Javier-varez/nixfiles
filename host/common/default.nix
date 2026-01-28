@@ -27,9 +27,12 @@ in
       networkmanager-l2tp
     ];
   };
-  networking.wireless.iwd = {
-    enable = config.isAsahiLinux;
-    settings.General.EnableNetworkConfiguration = true;
+  networking.wireless = {
+    enable = lib.mkIf config.isAsahiLinux (lib.mkForce false);
+    iwd = {
+      enable = config.isAsahiLinux;
+      settings.General.EnableNetworkConfiguration = true;
+    };
   };
 
   # Set your time zone.
@@ -41,7 +44,7 @@ in
   services.resolved.enable = true;
 
   # Enable the X11 windowing system.
-   services.xserver.enable = config.hasWindowManager;
+  services.xserver.enable = config.hasWindowManager;
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = config.hasWindowManager;
