@@ -45,9 +45,6 @@ in
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = config.hasWindowManager;
-  services.desktopManager.gnome = {
-    enable = config.hasWindowManager;
-  };
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -208,8 +205,6 @@ in
       destination = "/etc/udev/rules.d/70-saleae.rules";
     })
   ];
-
-  services.resolved.enable = true;
 
   systemd.sleep.extraConfig = lib.mkIf (!config.allowSuspend) ''
     AllowSuspend=no
