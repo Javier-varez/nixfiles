@@ -27,13 +27,7 @@ in
       networkmanager-l2tp
     ];
   };
-  networking.wireless = {
-    enable = lib.mkIf config.isAsahiLinux (lib.mkForce false);
-    iwd = {
-      enable = config.isAsahiLinux;
-      settings.General.EnableNetworkConfiguration = true;
-    };
-  };
+  networking.wireless.enable = true;
 
   # Set your time zone.
   time.timeZone = lib.mkDefault "Europe/Zurich";

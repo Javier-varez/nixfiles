@@ -19,10 +19,6 @@
     iamb = {
       url = "github:ulyssa/iamb/latest";
     };
-    ghostty = {
-      url = "github:ghostty-org/ghostty/v1.2.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pd-mirror = {
       url = "github:javier-varez/pd-mirror";
     };

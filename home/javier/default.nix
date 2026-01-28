@@ -12,12 +12,13 @@ let
   inherit (pkgs.stdenv) isLinux isDarwin;
 
   hasIamb = builtins.hasAttr pkgs.stdenv.hostPlatform.system inputs.iamb.packages;
-  hasGhostty =
-    hasWindowManager && !isDarwin && (builtins.hasAttr pkgs.stdenv.hostPlatform.system inputs.ghostty.packages);
+  hasGhostty = hasWindowManager && !isDarwin;
   hasFirefox = hasWindowManager;
 
-  iambPackage = lib.optional hasIamb inputs.iamb.packages."${pkgs.stdenv.hostPlatform.system}".default;
-  ghosttyPkg = lib.optional hasGhostty (inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default);
+  iambPackage =
+    lib.optional hasIamb
+      inputs.iamb.packages."${pkgs.stdenv.hostPlatform.system}".default;
+  ghosttyPkg = lib.optional hasGhostty pkgs.ghostty;
   pd-mirror = inputs.pd-mirror.packages.x86_64-linux.default;
 
   editor = "nvim";
