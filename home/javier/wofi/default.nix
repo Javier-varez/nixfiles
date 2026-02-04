@@ -1,13 +1,18 @@
 {
+  lib,
+  pkgs,
+  hasWindowManager,
   ...
 }:
 {
-  programs.wofi = {
-    enable = true;
-  };
+  config = lib.mkIf (pkgs.stdenv.isLinux && hasWindowManager) {
+    programs.wofi = {
+      enable = true;
+    };
 
-  home.file.".config/wofi" = {
-    enable = true;
-    source = ./config;
+    home.file.".config/wofi" = {
+      enable = true;
+      source = ./config;
+    };
   };
 }

@@ -11,7 +11,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+      url = "github:LnL7/nix-darwin/master";
     };
     nixos-apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon/release-2025-11-18";

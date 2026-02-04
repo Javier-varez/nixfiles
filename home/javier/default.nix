@@ -64,9 +64,7 @@ let
   };
 in
 rec {
-  imports = [
-    ./hyprland
-  ];
+  imports = [ ./hyprland ];
 
   home.username = "javier";
   home.homeDirectory = if isDarwin then "/Users/javier" else "/home/javier";
@@ -115,7 +113,6 @@ rec {
       xclip
       jq
       git-repo
-      glasgow
       k9s
       kubectl
       nixd
@@ -136,6 +133,7 @@ rec {
       protonvpn-gui
       telegram-desktop
       pd-mirror
+      glasgow
     ])
     ++ (lib.optional isX64Linux saleae-logic-2)
     ++ iambPackage

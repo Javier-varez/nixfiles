@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  hasWindowManager,
   ...
 }:
 let
@@ -36,154 +37,156 @@ in
     ./../wofi
   ];
 
-  home.packages = [
-    pkgs.nautilus
-    pkgs.dunst
-    pkgs.hyprpolkitagent
-    pkgs.brightnessctl
-    pkgs.hyprpaper
-    pkgs.hyprshot
+  config = lib.mkIf (pkgs.stdenv.isLinux && hasWindowManager) {
+    home.packages = [
+      pkgs.nautilus
+      pkgs.dunst
+      pkgs.hyprpolkitagent
+      pkgs.brightnessctl
+      pkgs.hyprpaper
+      pkgs.hyprshot
 
-    # Common tools
-    # pkgs.feh
-  ];
+      # Common tools
+      # pkgs.feh
+    ];
 
-  programs.hyprlock.enable = true;
+    programs.hyprlock.enable = true;
 
-  home.file = {
-    ".config/hypr/hypridle.conf" = {
-      enable = true;
-      source = ./hypridle.conf;
+    home.file = {
+      ".config/hypr/hypridle.conf" = {
+        enable = true;
+        source = ./hypridle.conf;
+      };
+      ".config/hypr/hyprpaper.conf" = {
+        enable = true;
+        text = ''
+          preload = ${wallpaper}
+          wallpaper = , ${wallpaper}
+        '';
+      };
+      ".config/ashell/config.toml" = {
+        enable = true;
+        source = ./ashell.toml;
+      };
     };
-    ".config/hypr/hyprpaper.conf" = {
+
+    wayland.windowManager.hyprland = {
       enable = true;
-      text = ''
-        preload = ${wallpaper}
-        wallpaper = , ${wallpaper}
-      '';
-    };
-    ".config/ashell/config.toml" = {
-      enable = true;
-      source = ./ashell.toml;
-    };
-  };
+      systemd.enable = false; # uwsm conflicts with this
+      settings = {
+        "$mod" = "SUPER";
+        "$altMod" = "CTRL";
+        bind = [
+          "$mod, T, exec, ghostty"
+          "$mod, R, exec, ${lib.getExe toggleWofi}"
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd.enable = false; # uwsm conflicts with this
-    settings = {
-      "$mod" = "SUPER";
-      "$altMod" = "CTRL";
-      bind = [
-        "$mod, T, exec, ghostty"
-        "$mod, R, exec, ${lib.getExe toggleWofi}"
+          "$mod, C, killactive,"
+          "$mod, M, exit,"
+          "$mod, E, exec, nautilus"
+          "$mod, Z, exec, hyprlock"
+          "$mod, V, togglefloating,"
+          "$mod, P, pseudo," # dwindle
+          "$mod, J, togglesplit," # dwindle
+          "$mod, F, fullscreen,"
 
-        "$mod, C, killactive,"
-        "$mod, M, exit,"
-        "$mod, E, exec, nautilus"
-        "$mod, Z, exec, hyprlock"
-        "$mod, V, togglefloating,"
-        "$mod, P, pseudo," # dwindle
-        "$mod, J, togglesplit," # dwindle
-        "$mod, F, fullscreen,"
+          "$mod, h, movefocus, l"
+          "$mod, l, movefocus, r"
+          "$mod, k, movefocus, u"
+          "$mod, j, movefocus, d"
 
-        "$mod, h, movefocus, l"
-        "$mod, l, movefocus, r"
-        "$mod, k, movefocus, u"
-        "$mod, j, movefocus, d"
+          "$mod SHIFT, l, resizeactive, 10 0"
+          "$mod SHIFT, h, resizeactive, -10 0"
+          "$mod SHIFT, k, resizeactive, 0 -10"
+          "$mod SHIFT, j, resizeactive, 0 10"
 
-        "$mod SHIFT, l, resizeactive, 10 0"
-        "$mod SHIFT, h, resizeactive, -10 0"
-        "$mod SHIFT, k, resizeactive, 0 -10"
-        "$mod SHIFT, j, resizeactive, 0 10"
+          "$mod SHIFT CTRL, l, resizeactive, 10 0"
+          "$mod SHIFT CTRL, h, resizeactive, -10 0"
+          "$mod SHIFT CTRL, k, resizeactive, 0 -10"
+          "$mod SHIFT CTRL, j, resizeactive, 0 10"
 
-        "$mod SHIFT CTRL, l, resizeactive, 10 0"
-        "$mod SHIFT CTRL, h, resizeactive, -10 0"
-        "$mod SHIFT CTRL, k, resizeactive, 0 -10"
-        "$mod SHIFT CTRL, j, resizeactive, 0 10"
+          # Screenshot a window
+          "$mod, PRINT, exec, hyprshot -m window"
+          ", PRINT, exec, hyprshot -m output"
 
-        # Screenshot a window
-        "$mod, PRINT, exec, hyprshot -m window"
-        ", PRINT, exec, hyprshot -m output"
+          # Switch workspaces
+          "$mod, TAB, workspace, previous"
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+          builtins.concatLists (
+            builtins.genList (
+              i:
+              let
+                ws = i + 1;
+              in
+              [
+                "$mod, code:1${toString i}, workspace, ${toString ws}"
+                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+              ]
+            ) 9
+          )
+        );
 
-        # Switch workspaces
-        "$mod, TAB, workspace, previous"
-      ]
-      ++ (
-        # workspaces
-        # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-        builtins.concatLists (
-          builtins.genList (
-            i:
-            let
-              ws = i + 1;
-            in
-            [
-              "$mod, code:1${toString i}, workspace, ${toString ws}"
-              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-            ]
-          ) 9
-        )
-      );
+        # <e> = repeat when held, <l> = works in lock screen
+        bindel = [
+          ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"
+          ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1.0"
+          ", xf86audiomute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          ", xf86audiomicmute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 
-      # <e> = repeat when held, <l> = works in lock screen
-      bindel = [
-        ", xf86audioraisevolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"
-        ", xf86audiolowervolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1.0"
-        ", xf86audiomute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", xf86audiomicmute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+          ", xf86monbrightnessup, exec, brightnessctl set 5%+"
+          ", xf86monbrightnessdown, exec, brightnessctl set 5%-"
+        ];
 
-        ", xf86monbrightnessup, exec, brightnessctl set 5%+"
-        ", xf86monbrightnessdown, exec, brightnessctl set 5%-"
-      ];
+        bindm = [
+          "$altMod, mouse:272, movewindow"
+          "$altMod, mouse:273, resizewindow"
+          "$mod, mouse:272, movewindow"
+          "$mod, mouse:273, resizewindow"
+        ];
 
-      bindm = [
-        "$altMod, mouse:272, movewindow"
-        "$altMod, mouse:273, resizewindow"
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
-      ];
+        input = {
+          kb_layout = "us";
+          repeat_delay = 200;
+          repeat_rate = 70;
 
-      input = {
-        kb_layout = "us";
-        repeat_delay = 200;
-        repeat_rate = 70;
-
-        touchpad = {
-          natural_scroll = true;
+          touchpad = {
+            natural_scroll = true;
+          };
         };
+
+        xwayland = {
+          enabled = true;
+          use_nearest_neighbor = false;
+          force_zero_scaling = true;
+        };
+
+        animation = [
+          "global, 0"
+        ];
+
+        monitor = [
+          "eDP-1, 1920x1200, 0x0, 1.5"
+          "desc:Dell Inc. DELL U2312HM KF87Y3AECZGS, 1920x1080, 0x-1080, 1"
+          "desc:Dell Inc. DELL U2719D GQD9623, 2560x1440, -2560x-1080, 1"
+        ];
       };
 
-      xwayland = {
-        enabled = true;
-        use_nearest_neighbor = false;
-        force_zero_scaling = true;
-      };
+      extraConfig = ''
+        # top-bar
+        exec-once = ${inputs.ashell.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/ashell
+        exec-once = systemctl --user enable --now dunst.service
+        exec-once = systemctl --user enable --now hyprpolkitagent.service
+        exec-once = systemctl --user enable --now hyprpaper.service
+      '';
 
-      animation = [
-        "global, 0"
-      ];
-
-      monitor = [
-        "eDP-1, 1920x1200, 0x0, 1.5"
-        "desc:Dell Inc. DELL U2312HM KF87Y3AECZGS, 1920x1080, 0x-1080, 1"
-        "desc:Dell Inc. DELL U2719D GQD9623, 2560x1440, -2560x-1080, 1"
-      ];
+      # It is installed as a nixos module already
+      package = null;
+      portalPackage = null;
     };
 
-    extraConfig = ''
-      # top-bar
-      exec-once = ${inputs.ashell.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/ashell
-      exec-once = systemctl --user enable --now dunst.service
-      exec-once = systemctl --user enable --now hyprpolkitagent.service
-      exec-once = systemctl --user enable --now hyprpaper.service
-    '';
-
-    # It is installed as a nixos module already
-    package = null;
-    portalPackage = null;
+    # Indicate to electron apps that they need to use wayland
+    home.sessionVariables.NIXOS_OZONE_WL = "1";
   };
-
-  # Indicate to electron apps that they need to use wayland
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
 }
