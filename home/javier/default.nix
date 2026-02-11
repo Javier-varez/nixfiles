@@ -121,6 +121,7 @@ rec {
       zig
       mold
       yazi
+      s5cmd
     ]
     ++ (lib.optionals isLinux [
       bluespec
@@ -206,49 +207,10 @@ rec {
       function fish_greeting
         fastfetch
       end
-    '';
-  };
 
-  programs.nushell = {
-    enable = true;
-    inherit shellAliases;
-
-    extraEnv = ''
-      let fish_completer = {|spans|
-        fish --command $'complete "--do-complete=($spans | str join " ")"'
-          | from tsv --flexible --noheaders --no-infer
-          | rename value description
-      }
-
-      $env.config = {
-        edit_mode: "emacs"
-
-        completions: {
-          external: {
-            enable: true
-            completer: $fish_completer
-          }
-        }
-
-        hooks: {
-          pre_prompt: [{ ||
-            if (which direnv | is-empty) {
-              return
-            }
-
-            direnv export json | from json | default {} | load-env
-            if 'ENV_CONVERSIONS' in $env and 'PATH' in $env.ENV_CONVERSIONS {
-              $env.PATH = do $env.ENV_CONVERSIONS.PATH.from_string $env.PATH
-            }
-          }]
-        }
-      }
-
-      $env.EDITOR = "${editor}"
-      $env.VISUAL = "${editor}"
-      $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/go/bin")
-      $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/.cargo/bin")
-      $env.PATH = ($env.PATH | split row (char esep) | append "${toString home.homeDirectory}/.claude/local")
+      if test -e $HOME/.config/fish/custom_config.fish
+          source $HOME/.config/fish/custom_config.fish
+      end
     '';
   };
 
