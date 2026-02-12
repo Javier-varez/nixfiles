@@ -63,7 +63,7 @@ let
     '';
   };
 in
-rec {
+{
   imports = [ ./hyprland ];
 
   home.username = "javier";
@@ -122,6 +122,7 @@ rec {
       mold
       yazi
       s5cmd
+      rclone
     ]
     ++ (lib.optionals isLinux [
       bluespec
