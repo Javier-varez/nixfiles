@@ -123,6 +123,8 @@ in
       yazi
       s5cmd
       rclone
+      bubblewrap
+      unzip
     ]
     ++ (lib.optionals isLinux [
       bluespec
