@@ -134,7 +134,7 @@ in
       bitwarden-cli
       bitwarden-desktop
       fractal
-      protonvpn-gui
+      proton-vpn
       telegram-desktop
       pd-mirror
       glasgow

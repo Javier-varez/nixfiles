@@ -256,7 +256,7 @@ in
     enable = true;
     libraries = with pkgs; [
       libGL
-      xorg.libxcb
+      libxcb
     ];
   };
 
