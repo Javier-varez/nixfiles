@@ -123,7 +123,6 @@ in
       yazi
       s5cmd
       rclone
-      bubblewrap
       unzip
     ]
     ++ (lib.optionals isLinux [
@@ -138,6 +137,7 @@ in
       telegram-desktop
       pd-mirror
       glasgow
+      bubblewrap
     ])
     ++ (lib.optional isX64Linux saleae-logic-2)
     ++ iambPackage

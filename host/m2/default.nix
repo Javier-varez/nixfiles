@@ -1,15 +1,12 @@
 { inputs, pkgs, ... }:
 {
-  imports = [
-    inputs.nixvim.nixosModules.nixvim
-  ];
-
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = [
     pkgs.vim
     pkgs.iterm2
     inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ltapiserv-rs
+    inputs.nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
   ];
 
   nix.enable = true;
@@ -33,7 +30,9 @@
   };
 
   launchd.agents.ltapiserv-rs = {
-    command = "${inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ltapiserv-rs}/bin/ltapiserv-rs";
+    command = "${
+      inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.ltapiserv-rs
+    }/bin/ltapiserv-rs";
     serviceConfig = {
       RunAtLoad = true;
       KeepAlive = true;
