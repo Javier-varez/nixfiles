@@ -131,7 +131,7 @@ in
       sudo
       pciutils
       bitwarden-cli
-      bitwarden-desktop
+      # bitwarden-desktop
       fractal
       proton-vpn
       telegram-desktop
