@@ -87,7 +87,7 @@ in
           "$mod, Z, exec, hyprlock"
           "$mod, V, togglefloating,"
           "$mod, P, pseudo," # dwindle
-          "$mod, J, togglesplit," # dwindle
+          # "$mod, J, togglesplit," # dwindle
           "$mod, F, fullscreen,"
 
           "$mod, h, movefocus, l"
