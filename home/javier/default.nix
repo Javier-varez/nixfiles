@@ -124,6 +124,7 @@ in
       s5cmd
       rclone
       unzip
+      tldr
     ]
     ++ (lib.optionals isLinux [
       bluespec
