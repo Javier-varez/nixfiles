@@ -7,11 +7,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1792665483,
-        "narHash": "sha256-77RB8YrOcwpXnU0kTijmJdmuy6CaqtGDsvYvzvhUYCg=",
+        "lastModified": 1792699933,
+        "narHash": "sha256-YiPQ0fftaYlT3r2Fx8ZR+hrEa2pwLGlHmphYFFRvsus=",
         "owner": "MalpenZibo",
         "repo": "ashell",
-        "rev": "4834c9142e2d1661a4a1b47c54a49b8729d65c51",
+        "rev": "f194db728d2bc99a23686bad9cc15039c4184ade",
         "type": "github"
       },
       "original": {
