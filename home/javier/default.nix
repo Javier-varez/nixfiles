@@ -125,6 +125,7 @@ in
       rclone
       unzip
       tldr
+      talosctl
     ]
     ++ (lib.optionals isLinux [
       bluespec
