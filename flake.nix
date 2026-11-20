@@ -54,6 +54,7 @@
       darwinSystems = {
         m2 = "aarch64-darwin";
         m1pro = "aarch64-darwin";
+        m5pro = "aarch64-darwin";
       };
 
       generateNixosSystem =
